@@ -24,9 +24,13 @@
 【持续补充……】
 
 #### 修改文件一览：
+
 /view/htm   footer_nav.inc.htm
+
 /conf/   conf.default.php
+
 /install   alter.sql   install.sql
+
 /xiunophp   misc.func   xiunophp.min.php   xiunophp.php   xn_html_safe.func.php
 
 ## 【以下为xiunobbs_4.0.4原版说明文件】
