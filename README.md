@@ -29,9 +29,9 @@
 
 /conf/   conf.default.php
 
-/install   alter.sql   install.sql
+/install   alter.sql | install.sql
 
-/xiunophp   misc.func   xiunophp.min.php   xiunophp.php   xn_html_safe.func.php
+/xiunophp   misc.func | xiunophp.min.php | xiunophp.php | xn_html_safe.func.php
 
 ## 【以下为xiunobbs_4.0.4原版说明文件】
 
