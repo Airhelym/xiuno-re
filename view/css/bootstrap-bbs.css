@@ -31,8 +31,14 @@ html, body {
 }
 
 #body {
+    background-image: url(../img/background.png);repeat-x;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   flex: 1 0 auto;
 }
+/* 可将背景重命名为"background.png"（包括后缀）放入/view/img目录下 */
+/* url()括号内可改为你自己的图片路径，网址也可以 */
 
 #footer {
   flex: 0 0 auto;

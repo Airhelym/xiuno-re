@@ -10,6 +10,8 @@
 
 与原作者和其他爱好者相比，本人修改的版本实在班门弄斧，如不足还请见谅
 
+本仓库修改分支同样使用MIT协议。
+
 念念不忘，必有回响。让我们一起期待xiuno回归！
 
 ## 修改
@@ -21,7 +23,21 @@
 
 * 修复后台插件页面打不开的问题
 
+* 方便了自定义论坛背景（若不修改css，也可将背景重命名为background.png后放入/view/img目录下。已简单处理，图片可自适应）
+
 【持续补充……】
+
+#### 修改文件一览：
+
+/view/htm : footer_nav.inc.htm
+
+/conf/ : conf.default.php 【utf8mb4】
+
+/install : alter.sql 【utf8mb4】| install.sql 【utf8mb4】
+
+/xiunophp : misc.func.php | xiunophp.min.php | xiunophp.php | xn_html_safe.func.php 【时间显示设置为发帖72h后显示具体年月日；兼容PHP7.4、PHP8】
+
+/view/css/bootstrap-bbs.css 【论坛背景自定义】
 
 ## 【以下为xiunobbs_4.0.4原版说明文件】
 
