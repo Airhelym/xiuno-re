@@ -1,47 +1,33 @@
-## 注
-本版本不是xiuno官方版本，仅为xiuno爱好者（使用者）自行修改的分支之一。
+### 注
 
-认准xiunobbs_4.0.4是xiuno最后一个官方版本。
+本版本不是 xiuno 官方版本，仅为 xiuno 爱好者（使用者）自行修改的分支之一。
 
-## 为什么建立此分支
-尽管xiuno4.0.4版本已十分成熟，但在实际使用时，为达到更好的效果（如特殊字符、速度、兼容性等），仍需进一步优化。
+认准 xiunobbs_4.0.4 是 xiuno 最后一个官方版本。
 
-本仓库所有修改均直接基于原版xiunobbs_4.0.4，并在文档中标注修改内容，方便对照。
+### 为什么建立此分支
 
-与原作者和其他爱好者相比，本人修改的版本实在班门弄斧，如不足还请见谅
+尽管 xiuno4.0.4 版本已十分成熟，但在实际使用时，为达到更好的效果（如特殊字符、速度、兼容性等），仍需进一步优化。
 
-本仓库修改分支同样使用MIT协议。
+本仓库所有修改均直接基于原版 xiunobbs_4.0.4。与原作者和其他爱好者相比，此版本属班门弄斧，如不足还请谅解。
 
-念念不忘，必有回响。让我们一起期待xiuno回归！
+本仓库修改分支同样使用 MIT 协议。
 
-## 修改
-* 修复PHP7.4、PHP8.0的兼容问题
+念念不忘，必有回响。让我们一起期待 xiuno 回归！
 
-* 编码从utf8改为utf8mb4，解决emoji显示问题
-
-* 由于xiuno的时间显示太过于友好，时间超过一年才显示年月日，不方便查看，故改为三日后显示年月日（不习惯的可以自行搜索修改日期的方法，然后自己逆推一下）
-
-* 修复后台插件页面打不开的问题
-
-* 方便了自定义论坛背景（若不修改css，也可将背景重命名为background.png后放入/view/img目录下。已简单处理，图片可自适应）
+### 修改
+- [x] 修复 PHP7.4、PHP8.0 的兼容问题
+- [x] 编码从 utf8 改为 utf8mb4，解决 emoji 显示问题
+- [x] 由于 xiuno 的时间显示太过于友好，时间超过一年才显示年月日，不方便查看，故改为三日后显示年月日（不习惯的可以自行搜索修改日期的方法，然后自己逆推一下）
+- [x] 修复后台插件页面打不开的问题；将启用的插件排在前面
+- [x] 方便了自定义论坛背景（若不修改 css，也可将背景重命名为 background.png 后放入/view/img 目录下。已简单处理，图片可自适应）
+- [x] 修复 http_url_path 方法在 php8.1 下报错问题
+- [ ] 将框架从 Bootstrap 4 升级至 Bootstrap 5.3.0【前台基本完成，可能造成大量基于 Bootstrap 4 的插件故障】
 
 【持续补充……】
 
-#### 修改文件一览：
-
-/view/htm : footer_nav.inc.htm
-
-/conf/ : conf.default.php 【utf8mb4】
-
-/install : alter.sql 【utf8mb4】| install.sql 【utf8mb4】
-
-/xiunophp : misc.func.php | xiunophp.min.php | xiunophp.php | xn_html_safe.func.php 【时间显示设置为发帖72h后显示具体年月日；兼容PHP7.4、PHP8】
-
-/view/css/bootstrap-bbs.css 【论坛背景自定义】
-
-## 【以下为xiunobbs_4.0.4原版说明文件】
-
 ***
+
+【以下为 xiunobbs_4.0.4 原版说明文件】
 
 ### 【Xiuno BBS 4.0 是什么？】
 Xiuno BBS 4.0 是一款轻论坛产品，前端基于 BootStrap 4.0、JQuery 3，后端基于 PHP/7 MySQL XCache/Yac/Redis/Memcached...
@@ -84,7 +70,6 @@ db 层采用了更加方便的接口，可以同时支持 SQL 和 NoSQL 的方�
 xiunophp 4.0 这个框架合并成了一个文件 xiunophp.min.php，只需要一个 include 就可以开始使用里面提供的方便的函数和全局变量。
 
 Xiuno BBS 4 正式版经历了近 2 年，7 个 beta 版本，最终定型，这可能是最后一个大版本，放心动手二次开发吧。
-
 
 ### 【性能方面】
 采用静态语言编程风格，充分发挥 PHP7 OPCache 的威力。

@@ -213,7 +213,7 @@ var Alert = function ($$$1) {
   var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
   var TRANSITION_DURATION = 150;
   var Selector = {
-    DISMISS: '[data-dismiss="alert"]'
+    DISMISS: '[data-bs-dismiss="alert"]'
   };
   var Event = {
     CLOSE: "close" + EVENT_KEY,
@@ -389,8 +389,8 @@ var Button = function ($$$1) {
     FOCUS: 'focus'
   };
   var Selector = {
-    DATA_TOGGLE_CARROT: '[data-toggle^="button"]',
-    DATA_TOGGLE: '[data-toggle="buttons"]',
+    DATA_TOGGLE_CARROT: '[data-bs-toggle^="button"]',
+    DATA_TOGGLE: '[data-bs-toggle="buttons"]',
     INPUT: 'input',
     ACTIVE: '.active',
     BUTTON: '.btn'
@@ -599,8 +599,8 @@ var Carousel = function ($$$1) {
     ITEM: '.carousel-item',
     NEXT_PREV: '.carousel-item-next, .carousel-item-prev',
     INDICATORS: '.carousel-indicators',
-    DATA_SLIDE: '[data-slide], [data-slide-to]',
-    DATA_RIDE: '[data-ride="carousel"]'
+    DATA_SLIDE: '[data-bs-slide], [data-bs-slide-to]',
+    DATA_RIDE: '[data-bs-ride="carousel"]'
     /**
      * ------------------------------------------------------------------------
      * Class Definition
@@ -966,7 +966,7 @@ var Carousel = function ($$$1) {
       }
 
       var config = _extends({}, $$$1(target).data(), $$$1(this).data());
-      var slideIndex = this.getAttribute('data-slide-to');
+      var slideIndex = this.getAttribute('data-bs-slide-to');
 
       if (slideIndex) {
         config.interval = false;
@@ -1073,7 +1073,7 @@ var Collapse = function ($$$1) {
   };
   var Selector = {
     ACTIVES: '.show, .collapsing',
-    DATA_TOGGLE: '[data-toggle="collapse"]'
+    DATA_TOGGLE: '[data-bs-toggle="collapse"]'
     /**
      * ------------------------------------------------------------------------
      * Class Definition
@@ -1089,7 +1089,7 @@ var Collapse = function ($$$1) {
       this._isTransitioning = false;
       this._element = element;
       this._config = this._getConfig(config);
-      this._triggerArray = $$$1.makeArray($$$1("[data-toggle=\"collapse\"][href=\"#" + element.id + "\"]," + ("[data-toggle=\"collapse\"][data-target=\"#" + element.id + "\"]")));
+      this._triggerArray = $$$1.makeArray($$$1("[data-bs-toggle=\"collapse\"][href=\"#" + element.id + "\"]," + ("[data-bs-toggle=\"collapse\"][data-target=\"#" + element.id + "\"]")));
       var tabToggles = $$$1(Selector.DATA_TOGGLE);
 
       for (var i = 0; i < tabToggles.length; i++) {
@@ -1293,7 +1293,7 @@ var Collapse = function ($$$1) {
         parent = $$$1(this._config.parent)[0];
       }
 
-      var selector = "[data-toggle=\"collapse\"][data-parent=\"" + this._config.parent + "\"]";
+      var selector = "[data-bs-toggle=\"collapse\"][data-parent=\"" + this._config.parent + "\"]";
       $$$1(parent).find(selector).each(function (i, element) {
         _this3._addAriaAndCollapsedClass(Collapse._getTargetFromElement(element), [element]);
       });
@@ -1448,7 +1448,7 @@ var Dropdown = function ($$$1) {
     POSITION_STATIC: 'position-static'
   };
   var Selector = {
-    DATA_TOGGLE: '[data-toggle="dropdown"]',
+    DATA_TOGGLE: '[data-bs-toggle="dropdown"]',
     FORM_CHILD: '.dropdown form',
     MENU: '.dropdown-menu',
     NAVBAR_NAV: '.navbar-nav',
@@ -1917,8 +1917,8 @@ var Modal = function ($$$1) {
   };
   var Selector = {
     DIALOG: '.modal-dialog',
-    DATA_TOGGLE: '[data-toggle="modal"]',
-    DATA_DISMISS: '[data-dismiss="modal"]',
+    DATA_TOGGLE: '[data-bs-toggle="modal"]',
+    DATA_DISMISS: '[data-bs-dismiss="modal"]',
     FIXED_CONTENT: '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top',
     STICKY_CONTENT: '.sticky-top',
     NAVBAR_TOGGLER: '.navbar-toggler'
@@ -3651,7 +3651,7 @@ var Tab = function ($$$1) {
     NAV_LIST_GROUP: '.nav, .list-group',
     ACTIVE: '.active',
     ACTIVE_UL: '> li > .active',
-    DATA_TOGGLE: '[data-toggle="tab"], [data-toggle="pill"], [data-toggle="list"]',
+    DATA_TOGGLE: '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]',
     DROPDOWN_TOGGLE: '.dropdown-toggle',
     DROPDOWN_ACTIVE_CHILD: '> .dropdown-menu .active'
     /**

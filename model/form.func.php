@@ -15,14 +15,14 @@ function form_radio($name, $arr, $checked = 0) {
 
 	foreach((array)$arr as $k=>$v) {
 		$add = $k == $checked ? ' checked="checked"' : '';
-		$s .= "<label class=\"custom-input custom-radio\"><input type=\"radio\" name=\"$name\" value=\"$k\"$add /> $v</label> &nbsp; \r\n";
+		$s .= "<label class=\"form-input form-radio\"><input type=\"radio\" name=\"$name\" value=\"$k\"$add /> $v</label> &nbsp; \r\n";
 	}
 	return $s;
 }
 
 function form_checkbox($name, $checked = 0, $txt = '') {
 	$add = $checked ? ' checked="checked"' : '';
-	$s = "<label class=\"custom-input custom-checkbox mr-4\"><input type=\"checkbox\" name=\"$name\" value=\"1\" $add /> $txt</label>";
+	$s = "<label class=\"form-input form-checkbox mr-4\"><input type=\"checkbox\" name=\"$name\" value=\"1\" $add /> $txt</label>";
 	return $s;
 }
 
@@ -41,7 +41,7 @@ function form_multi_checkbox($name, $arr, $checked = array()) {
 function form_select($name, $arr, $checked = 0, $id = TRUE) {
 	if(empty($arr)) return '';
 	$idadd = $id === TRUE ? "id=\"$name\"" : ($id ? "id=\"$id\"" : '');
-	$s = "<select name=\"$name\" class=\"custom-select\" $idadd> \r\n";
+	$s = "<select name=\"$name\" class=\"form-select\" $idadd> \r\n";
 	$s .= form_options($arr, $checked);
 	$s .= "</select> \r\n";
 	return $s;

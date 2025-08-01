@@ -15,10 +15,16 @@ plugin_env_check();
 empty($action) AND $action = 'local';
 
 if($action == 'local') {
-	
-	// 本地插件 local plugin list
-	$pluginlist = $plugins;
-	
+    
+    // 本地插件 local plugin list
+    $pluginlist = $plugins;
+    
+    $wd = param('wd', '');
+    if(!empty($wd)){
+        $wd = plugin_search_keyword_safe(xn_urldecode(trim($wd)));
+        $cond = array('name'=>array('LIKE'=>$wd));
+        $pluginlist = arrlist_cond_orderby($plugins, $cond, array('pluginid'=>-1), 1, 999);
+    }
 	$pagination = '';
 	$pugin_cate_html = '';
 	
@@ -32,9 +38,14 @@ if($action == 'local') {
 
 	$cateid = param(2, 0);
 	$page = param(3, 1);
+	$wd = param('wd', '');
 	$pagesize = 10;
 	$cond = $cateid ? array('cateid'=>$cateid) : array();
 	$cond['price'] = $action == 'official_fee' ? array('>'=>0) : 0;
+	if(!empty($wd)){
+		$wd = plugin_search_keyword_safe(xn_urldecode(trim($wd)));
+		$cond += array('name'=>array('LIKE'=>$wd));
+	}
 			
 	// plugin category
 	$pugin_cates = array(0=>lang('pugin_cate_0'), 1=>lang('pugin_cate_1'), 2=>lang('pugin_cate_2'), 3=>lang('pugin_cate_3'), 4=>lang('pugin_cate_4'), 99=>lang('pugin_cate_99'));
@@ -45,6 +56,7 @@ if($action == 'local') {
 	$total = plugin_official_total($cond);
 	$pluginlist = plugin_official_list($cond, array('pluginid'=>-1), $page, $pagesize);
 	$pagination = pagination(url("plugin-$action-$cateid-{page}"), $total, $page, $pagesize);
+    !empty($wd) AND $pagination = pagination(url("plugin-$action-$cateid-{page}").'?wd='.$wd, $total, $page, $pagesize);
 	
 	$header['title']    = lang('official_plugin');
 	$header['mobile_title'] = lang('official_plugin');

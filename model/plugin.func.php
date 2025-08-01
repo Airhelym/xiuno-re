@@ -73,6 +73,7 @@ function plugin_init() {
 	
 	//$official_plugins = plugin_official_list_cache();
 	//empty($official_plugins) AND $official_plugins = array();
+	  //取消与xiuno官方通信，防止后台插件页打不开
 	
 	$plugin_paths = glob(APP_PATH.'plugin/*', GLOB_ONLYDIR);
 	if(is_array($plugin_paths)) {
@@ -97,7 +98,28 @@ function plugin_init() {
 			// 本地 + 线上数据
 			$plugins[$dir] = plugin_read_by_dir($dir);
 		}
-	}
+		 //插件排序
+        $plugins = plugin_list_sort($plugins, "installed");
+        $plugins = plugin_list_sort($plugins, "enable");
+    }
+}
+
+//二维数组排序 TRUE FALSE
+function plugin_list_sort($arrlist, $col, $asc = FALSE){ 
+    $colarr = $arr = array();
+    foreach($arrlist as $k=>$v){
+        $colarr[$k] = $v[$col];
+    }
+    if($asc == TRUE){
+        asort($colarr);
+    }else{
+        arsort($colarr);
+    }
+    reset($colarr);
+    foreach($colarr as $k=>$v){
+        $arr[$k] = $arrlist[$k];
+    }
+    return $arr;
 }
 
 // 插件依赖检测，返回依赖的插件列表，如果返回为空则表示不依赖
@@ -518,6 +540,13 @@ function plugin_siteid() {
 	$siteip = _SERVER('SERVER_ADDR');
 	$siteid = md5($auth_key.$siteip);
 	return $siteid;
+}
+
+function plugin_search_keyword_safe($s){
+    $s = str_replace(array('\'', '\\', '"', '%', '<', '>', '`', '*', '&', '#'), '', $s);
+    $s = preg_replace('#\s+#', ' ', $s);
+    $s = trim($s);
+    return $s;
 }
 
 /*function plugin_outid($dir) {

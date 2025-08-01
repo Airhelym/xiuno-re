@@ -1,73 +1,100 @@
 
 // 0 表示永不超时，
 $.alert = function(subject, timeout, options) {
-	var options = options || {size: "md"};
-	var s = '\
-	<div class="modal fade" tabindex="-1" role="dialog">\
-		<div class="modal-dialog modal-'+options.size+'">\
-			<div class="modal-content">\
-				<div class="modal-header">\
-					<h4 class="modal-title">'+lang.tips_title+'</h4>\
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">\
-						<span aria-hidden="true">&times;</span>\
-					</button>\
-				</div>\
-				<div class="modal-body">\
-					<h5>'+subject+'</h5>\
-				</div>\
-				<div class="modal-footer">\
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">'+lang.close+'</button>\
-				</div>\
-			</div>\
-		</div>\
-	</div>';
-	var jmodal = $(s).appendTo('body');
-	jmodal.modal('show');
-	if(typeof timeout != 'undefined' && timeout >= 0) {
-		setTimeout(function() {
-			jmodal.modal('dispose');
-		}, timeout * 1000);
-	}
-	
-	return jmodal;
+    var options = options || {size: "md"};
+    var isError = options.isError || false;
+    var s = '\
+    <div class="modal fade" tabindex="-1">\
+        <div class="modal-dialog modal-'+options.size+'">\
+            <div class="modal-content">\
+                <div class="modal-header">\
+                    <h4 class="modal-title">'+lang.tips_title+'</h4>\
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>\
+                </div>\
+                <div class="modal-body">\
+                    <h5>'+subject+'</h5>\
+                </div>\
+                <div class="modal-footer">\
+                    <button type="button" class="btn '+(isError ? 'btn-danger' : 'btn-secondary')+' '+(isError ? 'error-btn' : '')+'" data-bs-dismiss="modal">'+lang.close+'</button>\
+                </div>\
+            </div>\
+        </div>\
+    </div>';
+    var jmodal = $(s).appendTo('body');
+    var modal = new bootstrap.Modal(jmodal[0], {
+        backdrop: true,
+        keyboard: true,
+        focus: true
+    });
+    modal.show();
+    
+    // 如果是错误状态，1秒后复原按钮
+    if(isError) {
+        setTimeout(function() {
+            jmodal.find('.error-btn').removeClass('btn-danger').addClass('btn-secondary').text(lang.close);
+        }, 1000);
+    }
+    
+    jmodal.on('hidden.bs.modal', function () {
+        jmodal.remove();
+    });
+    
+    if(typeof timeout != 'undefined' && timeout >= 0) {
+        setTimeout(function() {
+            modal.hide();
+        }, timeout * 1000);
+    }
+    
+    return jmodal;
 }
 
 $.confirm = function(subject, ok_callback, options) {
-	var options = options || {size: "md"};
-	options.body = options.body || '';
-	var title = options.body ? subject : lang.confirm_title+':';
-	var subject = options.body ? '' : '<p>'+subject+'</p>';
-	var s = '\
-	<div class="modal fade" tabindex="-1" role="dialog">\
-		<div class="modal-dialog modal-'+options.size+'">\
-			<div class="modal-content">\
-				<div class="modal-header">\
-					<h5 class="modal-title">'+title+'</h5>\
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">\
-						<span aria-hidden="true">&times;</span>\
-					</button>\
-				</div>\
-				<div class="modal-body">\
-					'+subject+'\
-					'+options.body+'\
-				</div>\
-				<div class="modal-footer">\
-					<button type="button" class="btn btn-primary">'+lang.confirm+'</button>\
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">'+lang.close+'</button>\
-				</div>\
-			</div>\
-		</div>\
-	</div>';
-	var jmodal = $(s).appendTo('body');
-	jmodal.find('.modal-footer').find('.btn-primary').on('click', function() {
-		jmodal.modal('hide');
-		if(ok_callback) ok_callback();
-	});
-	jmodal.modal('show');
-	return jmodal;
+    var options = options || {size: "md"};
+    options.body = options.body || '';
+    var title = options.body ? subject : lang.confirm_title+':';
+    var subject = options.body ? '' : '<p>'+subject+'</p>';
+    var s = '\
+    <div class="modal fade" tabindex="-1">\
+        <div class="modal-dialog modal-'+options.size+'">\
+            <div class="modal-content">\
+                <div class="modal-header">\
+                    <h5 class="modal-title">'+title+'</h5>\
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>\
+                </div>\
+                <div class="modal-body">\
+                    '+subject+'\
+                    '+options.body+'\
+                </div>\
+                <div class="modal-footer">\
+                    <button type="button" class="btn btn-primary confirm-btn">'+lang.confirm+'</button>\
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'+lang.close+'</button>\
+                </div>\
+            </div>\
+        </div>\
+    </div>';
+    var jmodal = $(s).appendTo('body');
+    var modal = new bootstrap.Modal(jmodal[0]);
+    
+    jmodal.on('hidden.bs.modal', function () {
+        jmodal.remove();
+    });
+    
+    jmodal.find('.confirm-btn').on('click', function() {
+        var $btn = $(this);
+        if(!$('.threadlist input[name="modtid"]:checked').length) {
+            $btn.removeClass('btn-primary').addClass('btn-danger').text(lang.please_select_thread);
+            setTimeout(function() {
+                $btn.removeClass('btn-danger').addClass('btn-primary').text(lang.confirm);
+            }, 1000);
+            return;
+        }
+        modal.hide();
+        if(ok_callback) ok_callback();
+    });
+    
+    modal.show();
+    return jmodal;
 }
-
-
 
 // --------------------- eval script start ---------------------------------
 
@@ -295,51 +322,69 @@ xn.get_title_body_script_css = function (s) {
 // <button id="button1" class="btn btn-primary" data-modal-url="user-login.htm" data-modal-title="用户登录" data-modal-arg="xxx" data-modal-callback="login_success_callback" data-modal-size="md">登陆</button>
 
 $.ajax_modal = function(url, title, size, callback, arg) {
-	var jmodal = $.alert('正在加载...', -1, {size: size});
-	jmodal.find('.modal-title').html(title);
-	
-	// ajax 加载内容
-	$.xget(url, function(code, message) {
-		// 对页面 html 进行解析
-		if(code == -101) {
-			var r = xn.get_title_body_script_css(message);
-			jmodal.find('.modal-body').html(r.body);
-			jmodal.find('.modal-footer').hide();
-		} else {
-			jmodal.find('.modal-body').html(message);
-			return;
-		}
-		// eval script, css
-		xn.eval_stylesheet(r.stylesheet_links);
-		jmodal.script_sections = r.script_sections;
-		if(r.script_srcs.length > 0) {
-			$.require(r.script_srcs, function() { 
-				xn.eval_script(r.script_sections, {jmodal: jmodal, callback: callback, arg: arg});
-			});
-		} else {
-			xn.eval_script(r.script_sections, {jmodal: jmodal, callback: callback, arg: arg});
-		}
-	});
-	return jmodal;
+    var jmodal = $.alert('正在加载...', -1, {size: size});
+    jmodal.find('.modal-title').html(title);
+    
+    // ajax 加载内容
+    $.xget(url, function(code, message) {
+        if(code == -101) {
+            var r = xn.get_title_body_script_css(message);
+            jmodal.find('.modal-body').html(r.body);
+            jmodal.find('.modal-footer').hide();
+            
+            // eval script, css
+            xn.eval_stylesheet(r.stylesheet_links);
+            jmodal.script_sections = r.script_sections;
+            if(r.script_srcs.length > 0) {
+                $.require(r.script_srcs, function() { 
+                    xn.eval_script(r.script_sections, {jmodal: jmodal, callback: callback, arg: arg});
+                });
+            } else {
+                xn.eval_script(r.script_sections, {jmodal: jmodal, callback: callback, arg: arg});
+            }
+        } else {
+            jmodal.find('.modal-body').html(message);
+        }
+    });
+    return jmodal;
 }
 
 $(function() {
-	$('[data-modal-title]').each(function() {
-		var jthis = $(this);
-		jthis.on('click', function() {
-			var url = jthis.data('modal-url') || jthis.attr('href');	
-			var title = jthis.data('modal-title');	
-			var arg = jthis.data('modal-arg');	
-			var callback_str = jthis.data('modal-callback');
-			callback = window[callback_str];
-			var size = jthis.data('modal-size'); // 对话框的尺寸
-			
-			// 弹出对话框
-			if(this.ajax_modal) this.ajax_modal.modal('dispose');
-			this.ajax_modal = $.ajax_modal(url, title, size, callback, arg);
-			
-			return false;
-		});
-	});
+    $('[data-modal-title]').each(function() {
+        var jthis = $(this);
+        jthis.on('click', function() {
+            var url = jthis.data('modal-url') || jthis.attr('href');    
+            var title = jthis.data('modal-title');    
+            var arg = jthis.data('modal-arg');    
+            var callback_str = jthis.data('modal-callback');
+            callback = window[callback_str];
+            var size = jthis.data('modal-size');
+            
+            // 弹出对话框
+            if(this.ajax_modal) {
+                var oldModal = bootstrap.Modal.getInstance(this.ajax_modal[0]);
+                if(oldModal) {
+                    oldModal.hide();
+                    this.ajax_modal.remove();
+                }
+            }
+            this.ajax_modal = $.ajax_modal(url, title, size, callback, arg);
+            
+            return false;
+        });
+    });
 });
 
+$(function() {
+    // 全选功能
+    $('.checkall').on('change', function() {
+        var checked = $(this).prop('checked');
+        $('input[name="modtid"]').prop('checked', checked);
+    });
+    
+    // 保持复选框状态
+    $(document).on('change', 'input[name="modtid"]', function() {
+        var allChecked = $('input[name="modtid"]').length === $('input[name="modtid"]:checked').length;
+        $('.checkall').prop('checked', allChecked);
+    });
+});

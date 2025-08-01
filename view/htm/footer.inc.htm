@@ -34,12 +34,15 @@
 	<?php } ?>
 	<script src="lang/<?php echo $conf['lang'];?>/bbs.js<?php echo $static_version;?>"></script>
 	<script src="<?php echo $conf['view_url'];?>js/jquery-3.1.0.js<?php echo $static_version;?>"></script>
-	<script src="<?php echo $conf['view_url'];?>js/popper.js<?php echo $static_version;?>"></script>
-	<script src="<?php echo $conf['view_url'];?>js/bootstrap.js<?php echo $static_version;?>"></script>
+	
 	<script src="<?php echo $conf['view_url'];?>js/xiuno.js<?php echo $static_version;?>"></script>
 	<script src="<?php echo $conf['view_url'];?>js/bootstrap-plugin.js<?php echo $static_version;?>"></script>
 	<script src="<?php echo $conf['view_url'];?>js/async.js<?php echo $static_version;?>"></script>
 	<script src="<?php echo $conf['view_url'];?>js/form.js<?php echo $static_version;?>"></script>
+	
+  <!-- Bootstrap 5 JS -->
+	<!--<script src="https://cdn.jsdmirror.com/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
+	<script src="view/js/bootstrap-5.bundle.min.js"></script>
 	<script>
 	var debug = DEBUG = <?php echo DEBUG; ?>;
 	var url_rewrite_on = <?php echo $conf['url_rewrite_on'];?>;

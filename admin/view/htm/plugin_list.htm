@@ -17,6 +17,14 @@
 		</div>
 		<div class="card">
 			<div class="card-body">
+                <div class="search mb-3">
+                    <form id="plugin_search">
+                        <div class="input-group">
+                            <input class="form-control" name="wd" placeholder="<?php echo !empty($wd) ? $wd : '关键词';?>" type="text" value="<?php echo !empty($wd) ? $wd : '';?>" />
+                            <div class="input-group-append"><button class="btn btn-primary" id="submit" type="submit">搜索插件</button></div>
+                        </div>
+                    </form>
+                </div>
 				<div class="table-responsive">
 					<table class="table">
 						<?php foreach($pluginlist as $dir=>$plugin) { ?>
@@ -45,7 +53,7 @@
 								
 								<?php if(!empty($plugin['username'])) { ?>
 								<br /><span class="small text-muted"><?php echo lang('author'); ?>：
-								<a href="http://bbs.xiuno.com/user-<?php echo $plugin['uid'];?>.htm" target="_blank"><?php echo $plugin['username'];?></span></a>
+								<a href="http://bbs.xiuno.com/user-<?php echo $plugin['uid'];?>.htm" target="_blank"><?php echo $plugin['username'];?></a></span>
 								<?php } ?>
 							</td>
 							<td width="100">
@@ -107,4 +115,11 @@
 
 <script>
 $('#nav li.nav-item-plugin').addClass('active');
+jplugin_search = $('#plugin_search');
+jplugin_search.on('submit', function() {
+    var wd = jplugin_search.find('input[name="wd"]').val();
+    var url = xn.url('plugin-<?php echo $action;?>')+'?wd='+xn.urlencode(wd);
+    window.location = url;
+    return false;
+});
 </script>

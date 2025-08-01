@@ -5,7 +5,7 @@ xn.form_radio = function(name, arr, checked) {
 	var s = '';
 	$.each(arr, function(k, v) {
 		var add = k == checked ? ' checked="checked"' : '';
-		s += "<label class=\"custom-input custom-radio\"><input type=\"radio\" name=\""+name+"\" value=\""+k+"\""+add+" />"+v+"</label> &nbsp; \r\n";
+		s += "<label class=\"form-input form-radio\"><input type=\"radio\" name=\""+name+"\" value=\""+k+"\""+add+" />"+v+"</label> &nbsp; \r\n";
 	});
 	return s;
 }
@@ -27,7 +27,7 @@ xn.form_select = function(name, arr, checked, id) {
 	if(xn.empty(arr)) return '';
 	var idadd = id === true ? "id=\""+name+"\"" : (id ? "id=\""+id+"\"" : '');
 	var s = '';
-	s += "<select name=\""+name+"\" class=\"custom-select\" "+idadd+"> \r\n";
+	s += "<select name=\""+name+"\" class=\"form-select\" "+idadd+"> \r\n";
 	s += xn.form_options(arr, checked);
 	s += "</select> \r\n";
 	return s;

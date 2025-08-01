@@ -65,13 +65,13 @@
 									<tbody>
 										<?php foreach ($accesslist as &$access) { ?>
 										<tr align="center">								
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="checkall" /></label></td>
+											<td><label class="form-input c-checkbox"><input type="checkbox" name="checkall" /></label></td>
 											<td align="left"><?php echo $access['name']; ?></td>
-											<td><label class="custom-input ccustom-checkbox"><input type="checkbox" name="allowread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowread'] ? 'checked' : ''); ?> /></label></td>
-											<td><label class="custom-input ccustom-checkbox"><input type="checkbox" name="allowthread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowthread'] ? 'checked' : ''); ?> /></label></td>
-											<td><label class="custom-input ccustom-checkbox"><input type="checkbox" name="allowpost[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowpost'] ? 'checked' : ''); ?> /></label></td>
-											<td><label class="custom-input ccustom-checkbox"><input type="checkbox" name="allowattach[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowattach'] ? 'checked' : ''); ?> /></label></td>
-											<td><label class="custom-input ccustom-checkbox"><input type="checkbox" name="allowdown[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowdown'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="form-input cform-checkbox"><input type="checkbox" name="allowread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowread'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="form-input cform-checkbox"><input type="checkbox" name="allowthread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowthread'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="form-input cform-checkbox"><input type="checkbox" name="allowpost[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowpost'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="form-input cform-checkbox"><input type="checkbox" name="allowattach[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowattach'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="form-input cform-checkbox"><input type="checkbox" name="allowdown[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowdown'] ? 'checked' : ''); ?> /></label></td>
 											<!--{hook admin_forum_update_access_input_end.htm}-->
 										</tr>
 										<?php } ?>

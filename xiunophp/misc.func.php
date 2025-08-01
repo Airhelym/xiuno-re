@@ -1036,7 +1036,9 @@ function http_url_path() {
 	//$portadd = ($port == 80 ? '' : ':'.$port);
 	$host = _SERVER('HTTP_HOST');  // host 里包含 port
 	$https = strtolower(_SERVER('HTTPS', 'off'));
-	$proto = strtolower(_SERVER('HTTP_X_FORWARDED_PROTO'));
+	$proto = _SERVER("HTTP_X_FORWARDED_PROTO") ? strtolower(_SERVER("HTTP_X_FORWARDED_PROTO")) : ""; //此处加判断
+	  //修复http_url_path方法在php8.1下报错的问题
+	  //原本代码为 $proto = strtolower(_SERVER('HTTP_X_FORWARDED_PROTO'));
 	$path = substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
 	$http = (($port == 443) || $proto == 'https' || ($https && $https != 'off')) ? 'https' : 'http';
 	return  "$http://$host$path/";
