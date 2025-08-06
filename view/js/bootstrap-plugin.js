@@ -51,7 +51,7 @@ $.alert = function(subject, timeout, options) {
 $.confirm = function(subject, ok_callback, options) {
     var options = options || {size: "md"};
     options.body = options.body || '';
-    var title = options.body ? subject : lang.confirm_title+':';
+    var title = options.body ? subject : lang.confirm_title;
     var subject = options.body ? '' : '<p>'+subject+'</p>';
     var s = '\
     <div class="modal fade" tabindex="-1">\
@@ -61,7 +61,7 @@ $.confirm = function(subject, ok_callback, options) {
                     <h5 class="modal-title">'+title+'</h5>\
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>\
                 </div>\
-                <div class="modal-body">\
+                <div class="modal-body fs-5">\
                     '+subject+'\
                     '+options.body+'\
                 </div>\
@@ -80,14 +80,6 @@ $.confirm = function(subject, ok_callback, options) {
     });
     
     jmodal.find('.confirm-btn').on('click', function() {
-        var $btn = $(this);
-        if(!$('.threadlist input[name="modtid"]:checked').length) {
-            $btn.removeClass('btn-primary').addClass('btn-danger').text(lang.please_select_thread);
-            setTimeout(function() {
-                $btn.removeClass('btn-danger').addClass('btn-primary').text(lang.confirm);
-            }, 1000);
-            return;
-        }
         modal.hide();
         if(ok_callback) ok_callback();
     });
@@ -96,6 +88,15 @@ $.confirm = function(subject, ok_callback, options) {
     return jmodal;
 }
 
+/* 原始代码
+	var jmodal = $(s).appendTo('body');
+	jmodal.find('.modal-footer').find('.btn-primary').on('click', function() {
+		jmodal.modal('hide');
+		if(ok_callback) ok_callback();
+	});
+	jmodal.modal('show');
+	return jmodal;
+*/
 // --------------------- eval script start ---------------------------------
 
 // 获取当前已经加载的 js

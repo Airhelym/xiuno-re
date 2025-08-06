@@ -1,0 +1,10 @@
+{
+    "name": "会员批量注册",
+    "brief": "会员批量注册。<br><br> 插件为<a target='_blank' href='http://cha.sgahz.net/'>查鸽信息网</a>制作。<br>联系QQ：5886425",
+    "version": "1.2",
+    "bbs_version": "4.0.3",
+    "installed": 0,
+    "enable": 0,
+    "hooks_rank": [],
+    "dependencies": []
+}

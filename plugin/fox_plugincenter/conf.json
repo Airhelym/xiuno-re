@@ -1,0 +1,13 @@
+{
+    "name": "奇狐网 · 插件商店",
+    "brief": "奇狐商店高品质插件，在线安装升级；如需换回官网插件商店则直接卸载本插件即可。",
+    "version": "1.06",
+    "bbs_version": "4.0.4",
+    "uid": "20394",
+    "username": "༺凨影༻",
+    "installed": 0,
+    "enable": 0,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

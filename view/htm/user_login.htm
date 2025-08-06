@@ -67,7 +67,7 @@ var referer = '<?php echo $referer;?>';
 jform.on('submit', function() {
     jform.reset();
     jsubmit.prop('disabled', true).addClass('disabled');
-    jsubmit.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> ' + jsubmit.data('loading-text'));
+    jsubmit.html('<span class="spinner-border spinner-border-sm" role="status"></span> ' + jsubmit.data('loading-text'));
     
     var postdata = jform.serializeObject();
     postdata.password = $.md5(postdata.password);

@@ -11,7 +11,7 @@
 			<div class="card-body">
 				<form action="<?php echo url('setting-smtp');?>" method="post" id="form">
 					<div class="table-responsive arrlist">
-						<table class="table">
+						<table class="table table-hover table-striped align-middle">
 							<thead>
 								<tr>
 									<th><?php echo lang('email');?></th>
@@ -30,13 +30,13 @@
 									<td width="100" class="text-center"><input type="text" class="form-control" name="port[]" value="{port}" placeholder="<?php echo lang('port');?>"/></td>
 									<td><input type="text" class="form-control" name="user[]" value="{user}" placeholder="<?php echo lang('username');?>"  /></td>
 									<td><input type="password" class="form-control" name="pass[]" value="{pass}" placeholder="<?php echo lang('password');?>"  /></td>
-									<td><a class="btn row_delete" role="btn"><?php echo lang('delete');?></a></td>
+									<td><a class="btn btn-sm btn-danger row_delete" role="btn"><?php echo lang('delete');?></a></td>
 								</tr>
 								</script>
 							</tbody>
 						</table>
 					</div>
-					<p><a role="button" class="btn row_add">[+]<?php echo lang('add_new_line');?></a></p>
+					<p><a role="button" class="btn btn-success btn-sm row_add">[+]<?php echo lang('add_new_line');?></a></p>
 					<p class="text-center">
 						<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..." style="width: 10rem;"><?php echo lang('confirm');?></button>
 					</p>
@@ -73,32 +73,50 @@ $.each(smtplist, function(k, v) {
 var jform = $("#form");
 var jsubmit = $("#submit");
 jform.on('submit', function(){
-	jform.reset();
-	jsubmit.button('loading');
-	var postdata = jform.serialize();
-	$.xpost(jform.attr('action'), postdata, function(code, message) {
-		if(code == 0) {
-			$.alert(message);
-			jsubmit.text(message).delay(1000).button('reset');
-			return;
-		} else {
-			alert(message);
-			jsubmit.button('reset');
-		}
-	});
-	return false;
+    jform.reset();
+    var jsubmitText = jsubmit.find('.submit-text');
+    var jspinner = jsubmit.find('.spinner-border');
+    jsubmit.prop('disabled', true);
+    jspinner.removeClass('d-none');
+    jsubmitText.text(jsubmit.data('loading-text'));
+    
+    var postdata = jform.serialize();
+    $.xpost(jform.attr('action'), postdata, function(code, message) {
+        if(code == 0) {
+            $.alert(message);
+            jsubmitText.text(message);
+            setTimeout(function() {
+                jsubmit.prop('disabled', false);
+                jspinner.addClass('d-none');
+                jsubmitText.text('<?php echo lang('confirm');?>');
+            }, 1000);
+        } else {
+            $.alert(message);
+            jsubmit.prop('disabled', false);
+            jspinner.addClass('d-none');
+            jsubmitText.text('<?php echo lang('confirm');?>');
+        }
+    });
+    return false;
 });
 
 // 删除 delete
 var jarrlist = $('.arrlist');
 var jdelete = $('a.row_delete');
 jarrlist.on('click', 'a.row_delete', function() {
-	var jthis = $(this);
-	var jtr = jthis.parents('tr');
-	var rowid = jtr.attr('rowid');
-	jtr.remove();
-	return false;
+    var jthis = $(this);
+    var jtr = jthis.parents('tr');
+    var rowid = jtr.attr('rowid');
+    
+    $.confirm("<?php echo lang('confirm_delete');?>", function() {
+        jtr.fadeOut(function() {
+            jtr.remove();
+        });
+    });
+    
+    return false;
 });
+
 
 // 增加 add
 var jadd = $('a.row_add');

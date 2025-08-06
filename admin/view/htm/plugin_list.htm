@@ -115,6 +115,8 @@
 
 <script>
 $('#nav li.nav-item-plugin').addClass('active');
+
+// 处理搜索表单
 jplugin_search = $('#plugin_search');
 jplugin_search.on('submit', function() {
     var wd = jplugin_search.find('input[name="wd"]').val();
@@ -122,4 +124,5 @@ jplugin_search.on('submit', function() {
     window.location = url;
     return false;
 });
+
 </script>

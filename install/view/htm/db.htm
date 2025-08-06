@@ -4,76 +4,107 @@
 <form action="index.php?action=db" method="post" id="form">
 
 <div class="row mt-3">
-	<div class="col-lg-8 offset-lg-2">
-		<div class="card">
-			<div class="card-body">
-				<h3 class="card-title"><?php echo lang('step_2_title');?></h3>
-				<div class="form-group row">
-					<label class="col-sm-3 form-control-label"><?php echo lang('db_type');?>：</label>
-					<div class="col-sm-9">
-						<label><input type="radio" name="type" value="pdo_mysql" <?php echo ($pdo_mysql_support ? ' ' : ' disabled'); ?>  <?php echo ($pdo_mysql_support ? 'checked' : ' '); ?> /> pdo_mysql</label>
-						<label><input type="radio" name="type" value="mysql" <?php echo ($mysql_support ? ' ' : ' disabled'); ?> <?php echo ($mysql_support && !$pdo_mysql_support ? 'checked' : ' '); ?> /> mysql</label>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-3 form-control-label"><?php echo lang('db_engine');?>：</label>
-					<div class="col-sm-9">
-						<label><input type="radio" name="engine" value="myisam" checked /> MyISAM</label>
-						<label><input type="radio" name="engine" value="innodb" /> InnoDB</label>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-3 form-control-label"><?php echo lang('db_host');?>：</label>
-					<div class="col-sm-9">
-						<input type="text" name="host" class="form-control" value="127.0.0.1">
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-3 form-control-label"><?php echo lang('db_name');?>：</label>
-					<div class="col-sm-9">
-						<input type="text" name="name" class="form-control" value="xiuno4">
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-3 form-control-label"><?php echo lang('db_user');?>：</label>
-					<div class="col-sm-9">
-						<input type="text" name="user" class="form-control" value="root">
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-3 form-control-label"><?php echo lang('db_pass');?>：</label>
-					<div class="col-sm-9">
-						<input type="text" name="password" class="form-control" value="root">
-					</div>
-				</div>
-				<h4><?php echo lang('step_3_title');?></h4>
-				<div class="form-group row">
-					<label class="col-sm-3 form-control-label"><?php echo lang('admin_email');?>：</label>
-					<div class="col-sm-9">
-						<input type="text" name="adminemail" class="form-control" value="admin@admin.com">
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-3 form-control-label"><?php echo lang('admin_username');?>：</label>
-					<div class="col-sm-9">
-						<input type="text" name="adminuser" class="form-control" value="admin">
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-3 form-control-label"><?php echo lang('admin_pw');?>：</label>
-					<div class="col-sm-9">
-						<input type="password" name="adminpass" class="form-control" value="">
-					</div>
-				</div>
-				
-			</div>
-	
-			<div class="text-center m-3">
-				<button type="button" class="btn btn-secondary" onclick="history.back();"><?php echo lang('last_step');?></button>
-				<button type="submit" class="btn btn-primary" id="submit" <?php echo !$succeed ? 'disabled' : '';?> data-loading-text="<?php echo lang('installing_about_moment');?>..."><?php echo lang('next_step');?></button>
-			</div>
-		</div>
-	</div>
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="card-title text-center mb-4"><?php echo lang('step_2_title');?></h3>
+                
+                <!-- Database Configuration -->
+                <div class="mb-4">
+                    <h5 class="text-secondary mb-2"><?php echo lang('db_engine');?></h5>
+                    
+                    <div class="row g-3 mb-2">
+                        <label class="col-sm-3 col-form-label"><?php echo lang('db_type');?>：</label>
+                        <div class="col-sm-9">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="type" value="pdo_mysql" <?php echo ($pdo_mysql_support ? ' ' : ' disabled'); ?>  <?php echo ($pdo_mysql_support ? 'checked' : ' '); ?>>
+                                <label class="form-check-label">pdo_mysql</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="type" value="mysql" <?php echo ($mysql_support ? ' ' : ' disabled'); ?> <?php echo ($mysql_support && !$pdo_mysql_support ? 'checked' : ' '); ?>>
+                                <label class="form-check-label">mysql</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                        <label class="col-sm-3 col-form-label"><?php echo lang('db_engine');?>：</label>
+                        <div class="col-sm-9">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="engine" value="myisam" checked>
+                                <label class="form-check-label">MyISAM</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="engine" value="innodb">
+                                <label class="form-check-label">InnoDB</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                        <label class="col-sm-3 col-form-label"><?php echo lang('db_host');?>：</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="host" class="form-control" value="127.0.0.1">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                        <label class="col-sm-3 col-form-label"><?php echo lang('db_name');?>：</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="name" class="form-control" value="xiuno4">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                        <label class="col-sm-3 col-form-label"><?php echo lang('db_user');?>：</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="user" class="form-control" value="root">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                        <label class="col-sm-3 col-form-label"><?php echo lang('db_pass');?>：</label>
+                        <div class="col-sm-9">
+                            <input type="password" name="password" class="form-control" value="root">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Configuration -->
+                <div class="border-top pt-4">
+                    <h5 class="text-secondary mb-2"><?php echo lang('step_3_title');?></h5>
+                    
+                    <div class="row g-3 mb-2">
+                        <label class="col-sm-3 col-form-label"><?php echo lang('admin_email');?>：</label>
+                        <div class="col-sm-9">
+                            <input type="email" name="adminemail" class="form-control" value="admin@admin.com">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                        <label class="col-sm-3 col-form-label"><?php echo lang('admin_username');?>：</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="adminuser" class="form-control" value="admin">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                        <label class="col-sm-3 col-form-label"><?php echo lang('admin_pw');?>：</label>
+                        <div class="col-sm-9">
+                            <input type="password" name="adminpass" class="form-control" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer bg-white py-3">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <button type="button" class="btn btn-secondary" onclick="history.back();"><?php echo lang('last_step');?></button>
+                    <button type="submit" class="btn btn-primary" id="submit" <?php echo !$succeed ? 'disabled' : '';?> data-loading-text="<?php echo lang('installing_about_moment');?>..."><?php echo lang('next_step');?></button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </form>

@@ -1,0 +1,104 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+
+
+
+<div class="row">
+	<div class="col-lg-8 mx-auto">
+		<div class="btn-group mb-3" role="group">
+			<?php echo admin_tab_active($menu['user']['tab'], 'create');?>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<!--
+				<h4 class="card-title"><?php echo lang('create_user');?></h4>
+				-->
+				<form action="<?php echo url("user-create");?>" method="post" id="form">
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label"><?php echo lang('email');?></label>
+						<div class="col-sm-10">
+							<?php echo $input['email'];?>
+							<div class="invalid-feedback"></div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label"><?php echo lang('username');?></label>
+						<div class="col-sm-10">
+							<?php echo $input['username'];?>
+							<div class="invalid-feedback"></div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label"><?php echo lang('password');?></label>
+						<div class="col-sm-10">
+							<?php echo $input['password'];?>
+							<div class="invalid-feedback"></div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label"><?php echo lang('user_group');?></label>
+						<div class="col-sm-10">
+							<?php echo $input['_gid'];?>
+							<div class="invalid-feedback"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-10 offset-sm-2">
+							<button type="submit" class="btn btn-primary w-100" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+							<a role="button" class="btn btn-secondary w-100 mt-3" href="javascript:history.back();"><?php echo lang('back');?></a>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+
+
+<script>
+var jform = $('#form');
+var jsubmit = $('#submit');
+
+jform.on('submit', function() {
+    jsubmit.prop('disabled', true).addClass('disabled');
+    jsubmit.html('<span class="spinner-border spinner-border-sm" role="status"></span> ' + jsubmit.data('loading-text'));
+    
+    var postdata = jform.serialize();
+    $.xpost(jform.attr('action'), postdata, function(code, message) {
+        if(code == 0) {
+            jsubmit.removeClass('btn-primary').addClass('btn-success');
+            jsubmit.html(message);
+            setTimeout(function() {
+                window.location.href = xn.url('user-list');
+            }, 1000);
+        } else if(xn.is_number(code)) {
+            jsubmit.prop('disabled', false).removeClass('disabled');
+            jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('confirm');?>');
+            $.alert(message, -1, {isError: true});
+        } else {
+            jsubmit.prop('disabled', false).removeClass('disabled');
+            jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('confirm');?>');
+            var jinput = jform.find('[name="'+code+'"]');
+            jinput.addClass('is-invalid');
+            jinput.next('.invalid-feedback').text(message);
+            jinput.focus();
+        }
+    });
+    return false;
+});
+
+// 输入框状态重置
+$('input, select').on('input change', function() {
+    $(this).removeClass('is-invalid');
+    $(this).next('.invalid-feedback').text('');
+});
+
+$('#nav li.nav-item-user').addClass('active');
+
+</script>
+
+

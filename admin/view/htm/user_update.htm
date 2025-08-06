@@ -11,39 +11,43 @@
 			<div class="card-body">
 				<h4 class="card-title"><?php echo lang('edit_user');?></h4>
 				<form action="<?php echo url("user-update-$_uid");?>" method="post" id="form">
-					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"><?php echo lang('email');?>：</label>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label"><?php echo lang('email');?></label>
 						<div class="col-sm-10">
 							<?php echo $input['email'];?>
+							<div class="invalid-feedback"></div>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"><?php echo lang('username');?>：</label>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label"><?php echo lang('username');?></label>
 						<div class="col-sm-10">
 							<?php echo $input['username'];?>
+							<div class="invalid-feedback"></div>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"><?php echo lang('password');?>：</label>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label"><?php echo lang('password');?></label>
 						<div class="col-sm-10">
 							<?php echo $input['password'];?>
+							<div class="invalid-feedback"></div>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"><?php echo lang('user_group');?>：</label>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label"><?php echo lang('user_group');?></label>
 						<div class="col-sm-10">
 							<?php echo $input['_gid'];?>
+							<div class="invalid-feedback"></div>
 						</div>
 					</div>
 					<!--{hook admin_user_update_group_after.htm}-->
-					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"></label>
-						<div class="col-sm-10">
-							<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
-							<a role="button" class="btn btn-secondary btn-block mt-3" href="javascript:history.back();"><?php echo lang('back');?></a>
+					<div class="row">
+						<div class="col-sm-10 offset-sm-2">
+							<button type="submit" class="btn btn-primary w-100" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+							<a role="button" class="btn btn-secondary w-100 mt-3" href="javascript:history.back();"><?php echo lang('back');?></a>
 						</div>
 					</div>
 				</form>
+				
 			</div>
 		</div>
 	</div>
@@ -55,6 +59,47 @@
 
 
 <script>
+var jform = $('#form');
+var jsubmit = $('#submit');
+
+jform.on('submit', function() {
+    // 保存按钮原始文本
+    var originalText = jsubmit.text();
+    // 显示提交状态
+    jsubmit.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status"></span> ' + jsubmit.data('loading-text'));
+    
+    var postdata = jform.serialize();
+    $.xpost(jform.attr('action'), postdata, function(code, message) {
+        if(code == 0) {
+            // 检查消息内容，判断是否有数据变动
+            if (message.indexOf('没有数据变动') !== -1 || message.indexOf('No data changed') !== -1) {
+                // 没有数据变动，恢复按钮原始文本
+                jsubmit.prop('disabled', false).text(originalText);
+                $.alert(message, 3, {size: "md"});
+            } else {
+                // 有数据变动，显示成功消息
+                var alert = $.alert(message, 3, {size: "md"});
+                jsubmit.prop('disabled', false).text('<?php echo lang("update_successfully");?>');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 3000);
+            }
+        } else if(xn.is_number(code)) {
+            $.alert(message, 0, {size: "md", isError: true});
+            jsubmit.prop('disabled', false).text(originalText);
+        } else {
+            var jinput = jform.find('[name="'+code+'"]');
+            jinput.addClass('is-invalid');
+            jinput.next('.invalid-feedback').text(message);
+            jinput.focus();
+            $.alert(message, 0, {size: "md", isError: true});
+            jsubmit.prop('disabled', false).text(originalText);
+        }
+    });
+    return false;
+});
+
+/* 原始代码
 var jform = $('#form');
 var jsubmit = $('#submit');
 jform.on('submit', function() {
@@ -75,6 +120,12 @@ jform.on('submit', function() {
 		}
 	});
 	return false;
+});
+*/
+// 输入框状态重置
+$('input, select').on('input change', function() {
+    $(this).removeClass('is-invalid');
+    $(this).next('.invalid-feedback').text('');
 });
 
 $('#nav li.nav-item-user').addClass('active');

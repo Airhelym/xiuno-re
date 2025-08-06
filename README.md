@@ -1,4 +1,10 @@
-### 注
+<div align="center">
+
+XIUNO · RE
+
+![master version](https://img.shields.io/badge/master-v1.1.1-%231ab1ad.svg) ![dev version](https://img.shields.io/badge/dev-v2.0.0_b2-brightgreen.svg)
+
+</div>
 
 本版本不是 xiuno 官方版本，仅为 xiuno 爱好者（使用者）自行修改的分支之一。
 
@@ -8,19 +14,23 @@
 
 尽管 xiuno4.0.4 版本已十分成熟，但在实际使用时，为达到更好的效果（如特殊字符、速度、兼容性等），仍需进一步优化。
 
-本仓库所有修改均直接基于原版 xiunobbs_4.0.4。与原作者和其他爱好者相比，此版本属班门弄斧，如不足还请谅解。
+本仓库所有修改均直接基于原版 xiunobbs_4.0.4，未来可能不再仅限于对原程序的修补。与原作者和其他爱好者相比，此版本属班门弄斧，如不足还请谅解。
 
 本仓库修改分支同样使用 MIT 协议。
 
 念念不忘，必有回响。让我们一起期待 xiuno 回归！
 
 ### 修改
+
 - [x] 修复 PHP7.4、PHP8.0 的兼容问题
 - [x] 编码从 utf8 改为 utf8mb4，解决 emoji 显示问题
 - [x] 由于 xiuno 的时间显示太过于友好，时间超过一年才显示年月日，不方便查看，故改为三日后显示年月日（不习惯的可以自行搜索修改日期的方法，然后自己逆推一下）
 - [x] 修复后台插件页面打不开的问题；将启用的插件排在前面
 - [x] 方便了自定义论坛背景（若不修改 css，也可将背景重命名为 background.png 后放入/view/img 目录下。已简单处理，图片可自适应）
 - [x] 修复 http_url_path 方法在 php8.1 下报错问题
+
+**Dev**
+
 - [ ] 将框架从 Bootstrap 4 升级至 Bootstrap 5.3.0【前台基本完成，可能造成大量基于 Bootstrap 4 的插件故障】
 
 【持续补充……】

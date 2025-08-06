@@ -45,7 +45,7 @@ var jpassword2 = $('#password2');
 jsend.on('click', function() {
     jform.reset();
     jsend.prop('disabled', true).addClass('disabled');
-    jsend.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> ' + jsend.data('loading-text'));
+    jsend.html('<span class="spinner-border spinner-border-sm" role="status"></span> ' + jsend.data('loading-text'));
     
     var postdata = jform.serialize();
     $.xpost(jsend.attr('action'), postdata, function(code, message) {
@@ -84,7 +84,7 @@ jsend.on('click', function() {
 jform.on('submit', function() {
     jform.reset();
     jsubmit.prop('disabled', true).addClass('disabled');
-    jsubmit.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> ' + jsubmit.data('loading-text'));
+    jsubmit.html('<span class="spinner-border spinner-border-sm" role="status"></span> ' + jsubmit.data('loading-text'));
     
     var postdata = jform.serialize();
     $.xpost(jform.attr('action'), postdata, function(code, message) {

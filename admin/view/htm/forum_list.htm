@@ -4,42 +4,42 @@
 
 <div class="row">
 	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
+		<div class="card shadow-sm">
+			<div class="card-body p-4">
 				<form action="<?php echo url('forum-list');?>" method="post" id="form">
 					<div class="table-responsive arrlist">
-						<table class="table" style="min-width: 800px">
-							<thead>
-								<tr align="center">
-									<th width="80"><?php echo lang('forum_id');?></th>
-									<th width="60" align="left"><?php echo lang('forum_icon');?></th>
-									<th width="130"></th>
-									<th><?php echo lang('forum_name');?></th>
-									<th width="100"><?php echo lang('forum_rank');?></th>
-									<th width="100" class="text-center"><?php echo lang('forum_edit');?></th>
-									<th width="100" class="text-center"><?php echo lang('forum_delete');?></th>
+						<table class="table table-hover align-middle" style="min-width: 800px">
+							<thead class="table-light">
+								<tr>
+									<th width="80" class="text-center fw-bold"><?php echo lang('forum_id');?></th>
+									<th width="60" class="fw-bold"><?php echo lang('forum_icon');?></th>
+									<th width="130" class="fw-bold"></th>
+									<th class="fw-bold"><?php echo lang('forum_name');?></th>
+									<th width="100" class="text-center fw-bold"><?php echo lang('forum_rank');?></th>
+									<th width="100" class="text-center fw-bold"><?php echo lang('forum_edit');?></th>
+									<th width="100" class="text-center fw-bold"><?php echo lang('forum_delete');?></th>
 								</tr>
-							<thead>
+							</thead>
 							<tbody>
 								<?php foreach($forumlist as $_fid=>$_forum) { ?>
 								<tr align="center" rowid="<?php echo $_fid; ?>">
 									<td class="50"><input type="text" class="form-control" name="fid[<?php echo $_fid;?>]" value="<?php echo $_forum['fid']; ?>"  placeholder="<?php echo lang('forum_id');?>" /></td>
 									<td align="left">
-										<img src="../<?php echo $_forum['icon_url']; ?>" class="forum" width="48" id="img_<?php echo $_fid;?>" />
+										<img src="../<?php echo $_forum['icon_url']; ?>" class="forum rounded shadow-sm" width="48" height="48" id="img_<?php echo $_fid;?>" />
 									</td>
 									<td>
 										<input type="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control" name="icon[<?php echo $_fid;?>]" value="" data-assoc="img_<?php echo $_fid;?>" placeholder="<?php echo lang('forum_icon');?>" />
 									</td>
 									<td><input type="text" class="form-control" name="name[<?php echo $_fid;?>]" value="<?php echo $_forum['name']; ?>" placeholder="<?php echo lang('forum_name');?>" /></td>
 									<td><input type="text" class="form-control" name="rank[<?php echo $_fid;?>]" value="<?php echo $_forum['rank']; ?>" placeholder="<?php echo lang('forum_rank');?>" /></td>
-									<td><a class="btn row_edit" role="button" tabindex="0"><?php echo lang('forum_edit');?></a></td>
-									<td><a class="btn row_delete" role="button" tabindex="0"><?php echo lang('forum_delete');?></a></td>
+									<td><a class="btn btn-sm btn-primary row_edit" role="button" tabindex="0"><?php echo lang('forum_edit');?></a></td>
+									<td><a class="btn btn-sm btn-danger row_delete" role="button" tabindex="0"><?php echo lang('forum_delete');?></a></td>
 								</tr>
 								<?php } ?>
 							</tbody>
 						</table>
 					</div>
-					<p><a role="button" class="btn row_add">[+]<?php echo lang('add_new_line');?></a></p>
+					<p><a role="button" class="btn btn-success btn-sm row_add">[+]<?php echo lang('add_new_line');?></a></p>
 					<p class="text-center">
 						<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..." style="width: 10rem;"><?php echo lang('confirm');?></button>
 					</p>
@@ -99,16 +99,21 @@ jarrlist.on('click', 'a.row_edit', function() {
 // 删除
 var jdelete = $('a.row_delete');
 jarrlist.on('click', 'a.row_delete', function() {
-	var jthis = $(this);
-	var jtr = jthis.parents('tr');
-	var rowid = jtr.attr('rowid');
-	if(rowid == 1) {
-		$.alert('<?php echo lang('forum_cant_delete_system_reserved');?>');
-		return;
-	}
-	jtr.remove();
-	return false;
+    var jthis = $(this);
+    var jtr = jthis.parents('tr');
+    var rowid = jtr.attr('rowid');
+    if(rowid == 1) {
+        $.alert('<?php echo lang('forum_cant_delete_system_reserved');?>');
+        return;
+    }
+    $.confirm("<?php echo lang('confirm_delete');?>", function() {
+        jtr.fadeOut(function() {
+            jtr.remove();
+        });
+    });
+    return false;
 });
+
 // 增加
 var jadd = $('a.row_add');
 jadd.on('click', function() {
