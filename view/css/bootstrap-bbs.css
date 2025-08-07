@@ -3474,3 +3474,17 @@ small, .small {
 a {
   text-decoration: none;
 }
+
+.table {
+  --bs-table-bg: transparent !important;
+}
+/*
+.nav-light-container .nav-link,
+.nav-light-container .navbar-brand {
+    --bs-text-opacity:1;color:rgba(var(--bs-light-rgb),var(--bs-text-opacity)) !important;
+}
+.nav-light-container .nav-link:hover,
+.nav-light-container .navbar-brand:hover {
+    --bs-text-opacity:1;color:rgba(var(--bs-light-rgb),var(--bs-text-opacity)) !important;
+}
+*/

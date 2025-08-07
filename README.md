@@ -2,7 +2,7 @@
 
 XIUNO · RE
 
-![master version](https://img.shields.io/badge/master-v1.1.1-%231ab1ad.svg) ![dev version](https://img.shields.io/badge/dev-v2.0.0_b2-brightgreen.svg)
+![master version](https://img.shields.io/badge/master-v1.1.1-%231ab1ad.svg) ![dev version](https://img.shields.io/badge/dev-v2.0.0_b3-brightgreen.svg)
 
 </div>
 
@@ -31,7 +31,10 @@ XIUNO · RE
 
 **Dev**
 
-- [ ] 将框架从 Bootstrap 4 升级至 Bootstrap 5.3.0【前台基本完成，可能造成大量基于 Bootstrap 4 的插件故障】
+将框架从 Bootstrap 4 升级至 Bootstrap 5.3.0
+- [x] 前台基本适配
+- [x] 后台基本适配
+- [x] 初步适配 Base16配色助手 插件
 
 【持续补充……】
 

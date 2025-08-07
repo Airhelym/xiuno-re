@@ -1,0 +1,310 @@
+<?php $conf = G('conf');?>
+<?php $header = G('header');?>
+<?php $user = G('user');?>
+<?php $uid = G('uid');?>
+<?php $gid = G('gid');?>
+<?php $fid = G('fid');?>
+<?php $tid = G('tid');?>
+<?php $pid = G('pid');?>
+<?php $route = G('route');?>
+<?php $forumlist_show = G('forumlist_show');?>
+<?php $static_version = $conf['static_version'];?>
+<?php
+
+$till_base16_settings = setting_get('till_base16_setting');
+
+if (!function_exists('checkIsBetweenTime')) {
+    /**
+     * 判断当前的时分是否在指定的时间段内
+     * @param string $start 开始时分  eg:10:30
+     * @param string $end 结束时分   eg:15:30
+     * @param bool $nextday 结束时间是否在第二天？（用于判断“从晚上到第二天早上”的情况）
+     * @author mzc
+     * @date 2018/8/9 10:46
+     * @return bool  true:在范围内，false:没在范围内
+     */
+	 function checkIsBetweenTime($start, $end, $nextday = false) {
+		$date = date('H:i');
+		$curTime = strtotime($date); //当前时分
+		$assignTime1 = strtotime($start); //获得指定分钟时间戳，00:00
+		$assignTime2 = strtotime($end); //获得指定分钟时间戳，01:00
+	
+		// 如果结束时间在第二天，将开始时间加上24小时
+		if ($nextday) {
+			$assignTime1 += 24 * 60 * 60;
+		}
+	
+		// 调整结束时间，确保其大于开始时间
+		if ($assignTime2 < $assignTime1) {
+			$assignTime2 += 24 * 60 * 60;
+		}
+	
+		if ($curTime > $assignTime1 && $curTime < $assignTime2) {
+			return true;
+		}
+	
+		return false;
+	}
+}
+
+function b16_pane_demo_build_css($b16_settings_data = [], $mode = '') {
+	$result = '';
+    switch($mode) {
+        case 'light':
+            $result = '.light-style {';
+            break;
+        case 'dark':
+            $result = '.dark-style {';
+            break;
+        default:
+            $result = ':root {';
+            break;
+    }
+	foreach ($b16_settings_data as $key => $value) {
+		switch ($key) {
+			case 'b16_color_body_bg':
+				$result .= '--bs-body-background-color: var(--' . $value . '); ';
+				break;
+			case 'b16_color_body_fg':
+				$result .= '--bs-body-color: var(--' . $value . '); ';
+				break;
+			case 'b16_color_container_bg':
+				$result .= '--bs-container-background-color: var(--' . $value . '); ';
+				break;
+			case 'b16_color_bright_fg':
+				$result .= '--bs-body-color-bright: var(--' . $value . '); ';
+				break;
+			case 'b16_color_muted_fg':
+				$result .= '--bs-body-muted-color: var(--' . $value . '); ';
+				break;
+			case 'b16_color_selection_bg':
+				$result .= '--bs-selection-bg: var(--' . $value . '); ';
+				break;
+			case 'b16_color_selection_fg':
+				$result .= '--bs-selection-fg: var(--' . $value . '); ';
+				break;
+			case 'b16_color_primary_bg':
+				$result .= '--bs-primary: var(--' . $value . '); ';
+				break;
+			case 'b16_color_primary_fg':
+				$result .= '--bs-primary-fg: var(--' . $value . '); ';
+				break;
+			case 'b16_color_secondary_bg':
+				$result .= '--bs-secondary: var(--' . $value . '); ';
+				break;
+			case 'b16_color_secondary_fg':
+				$result .= '--bs-secondary-fg: var(--' . $value . '); ';
+				break;
+			case 'b16_color_info_bg':
+				$result .= '--bs-info: var(--' . $value . '); ';
+				break;
+			case 'b16_color_info_fg':
+				$result .= '--bs-info-fg: var(--' . $value . '); ';
+				break;
+			case 'b16_color_success_bg':
+				$result .= '--bs-success: var(--' . $value . '); ';
+				break;
+			case 'b16_color_success_fg':
+				$result .= '--bs-success-fg: var(--' . $value . '); ';
+				break;
+			case 'b16_color_warning_bg':
+				$result .= '--bs-warning: var(--' . $value . '); ';
+				break;
+			case 'b16_color_warning_fg':
+				$result .= '--bs-warning-fg: var(--' . $value . '); ';
+				break;
+			case 'b16_color_danger_bg':
+				$result .= '--bs-danger: var(--' . $value . '); ';
+				break;
+			case 'b16_color_danger_fg':
+				$result .= '--bs-danger-fg: var(--' . $value . '); ';
+				break;
+				case 'b16_color_nav_bg':
+				if (boolval($b16_settings_data['b16_custom_nav_color'])) {
+					$result .= '--bs-navbar-background-color: var(--' . $value . '); ';
+				}
+				break;
+			case 'b16_color_nav_fg':
+				if (boolval($b16_settings_data['b16_custom_nav_color'])) {
+					$result .= '--bs-navbar-color: var(--' . $value . '); ';
+				}
+				break;
+			default:
+				break;
+		}
+	}
+	$result .= '}';
+	return $result;
+}
+
+$till_base16_color_mode = 'light';
+$till_base16_body_class = 'light-style';
+$till_base16_color_scheme_href = $till_base16_settings['light_mode']['b16_color_scheme_href'];
+if (
+    $till_base16_settings['b16_color_mode']=== 'dark' ||
+    ($till_base16_settings['b16_color_mode'] === 'auto' &&
+    checkIsBetweenTime($till_base16_settings['b16_switch_to_dark_time'],$till_base16_settings['b16_switch_to_light_time'], true)
+    )
+) {
+    $till_base16_color_mode = 'dark';
+    $till_base16_body_class = 'dark-style';
+    $till_base16_color_scheme_href = $till_base16_settings['dark_mode']['b16_color_scheme_href'];
+}
+?>
+<!DOCTYPE html>
+<html lang="<?php echo $conf['lang'];?>">
+<head>
+	
+	<?php echo defined('BASE_HREF') ? '<base href="'.BASE_HREF.'" />' : '' ;?>
+	
+	
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<?php if(!empty($header['keywords'])) { ?>
+	<meta name="keywords" content="<?php echo strip_tags($header['keywords']);?>" />
+	<?php } ?>
+
+	<meta name="description" content="<?php echo strip_tags($header['description']);?>" />
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+
+	<title><?php echo $header['title'];?></title>
+	
+	
+	
+	<link rel="shortcut icon" href="<?php echo $conf['view_url'];?>img/favicon.ico" />
+	<link rel="icon" sizes="32x32" href="<?php echo $conf['view_url'];?>img/favicon.ico">
+	<link rel="Bookmark" href="<?php echo $conf['view_url'];?>img/favicon.ico" />
+	
+	
+	
+	<link href="view/css/bootstrap-5.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="view/font/bootstrap-5-icons.css">
+  
+	
+	
+	
+	<link rel="stylesheet" href="view/css/bootstrap-bbs.css">
+	<?php if($till_base16_settings['b16_inject_location'] === 'body_start'): ?>
+<!--=====================================
+=             Base16 Header             =
+======================================-->
+<link href="./plugin/till_base16_colorscheme/view/css/theme-base16.css" type="text/css" rel="stylesheet" id="theme_base16">
+<!-- The current time is <?= date('H:i') ?> -->
+<link 
+href="<?= $till_base16_color_scheme_href ?>" 
+data-light_mode_href="<?= $till_base16_settings['light_mode']['b16_color_scheme_href'] ?>" 
+data-dark_mode_href="<?= $till_base16_settings['dark_mode']['b16_color_scheme_href'] ?>" 
+tpye="text/css" rel="stylesheet" id="pallete_base16">
+<style id="custom_light_base16"><?= b16_pane_demo_build_css($till_base16_settings['light_mode'],'light'); ?></style>
+<style id="custom_dark_base16"><?= b16_pane_demo_build_css($till_base16_settings['dark_mode'],'dark'); ?></style>
+<style id="custom_css_base16"><?= $till_base16_settings['b16_custom_css']; ?></style>
+<!--=======  End of Base16 Header  ========-->
+<?php endif; ?>
+	
+	
+	
+</head>
+
+<body>
+	
+	
+	
+	<?php include _include(APP_PATH.'view/htm/header_nav.inc.htm');?>
+
+	<main id="body">
+		<div class="container">
+	
+		<script>document.querySelector('body').classList.add('<?= $till_base16_body_class ?>');</script>
+<?php if($till_base16_settings['b16_show_color_mode_switch']): ?>
+<script id="b16_color_mode_switch_js_h">
+
+    function b16_get_color_mode() {
+        if (localStorage.getItem('b16_color_mode') === null) {
+            localStorage.setItem('b16_color_mode', 'unset');
+        }
+        return localStorage.getItem('b16_color_mode');
+    }
+    function b16_apply_color_mode(mode = '', update_css = true, update_label = true) {
+        if (mode.length === 0) {
+            mode = localStorage.getItem('b16_color_mode');
+        }
+        switch (mode) {
+            case 'light':
+                if (update_css) {
+                    if (document.querySelector('body').classList.contains('dark-style')) {
+                        document.querySelector('body').classList.remove('dark-style');
+                    }
+                    document.querySelector('body').classList.add('light-style');
+                    document.getElementById('pallete_base16').href = document.getElementById('pallete_base16').getAttribute('data-light_mode_href');
+                }
+                if (update_label && document.getElementById('b16_color_mode_switch') !== null) {
+                    this_mode_name = '浅色';
+                    document.querySelector('#b16_color_mode_switch > i').setAttribute('class', 'icon-sun-o');
+                    document.querySelector('#b16_color_mode_switch > span').innerHTML = this_mode_name;
+                    if (document.querySelector('#b16_color_mode_switch').getAttribute('data-bs-original-title') !== null) {
+                        document.querySelector('#b16_color_mode_switch').setAttribute('data-bs-original-title', this_mode_name + '；' + document.querySelector('#b16_color_mode_switch').getAttribute('data-real-original-title'));
+                    }
+                }
+                break;
+            case 'dark':
+                if (update_css) {
+                    if (document.querySelector('body').classList.contains('light-style')) {
+                        document.querySelector('body').classList.remove('light-style');
+                    }
+                    document.querySelector('body').classList.add('dark-style');
+                    document.getElementById('pallete_base16').href = document.getElementById('pallete_base16').getAttribute('data-dark_mode_href');
+
+                }
+                if (update_label && document.getElementById('b16_color_mode_switch') !== null) {
+                    this_mode_name = '深色';
+                    document.querySelector('#b16_color_mode_switch > i').setAttribute('class', 'icon-moon-o');
+                    document.querySelector('#b16_color_mode_switch > span').innerHTML = this_mode_name;
+                    if (document.querySelector('#b16_color_mode_switch').getAttribute('data-bs-original-title') !== null) {
+                        document.querySelector('#b16_color_mode_switch').setAttribute('data-bs-original-title', this_mode_name + '；' + document.querySelector('#b16_color_mode_switch').getAttribute('data-real-original-title'));
+                    }
+                }
+                break;
+
+            case 'auto':
+                // TODO
+                if (update_label && document.getElementById('b16_color_mode_switch') !== null) {
+                    this_mode_name = '自动';
+                    document.querySelector('#b16_color_mode_switch  > i').setAttribute('class', 'icon-adjust');
+                    document.querySelector('#b16_color_mode_switch  > span').innerHTML = this_mode_name;
+                    if (document.querySelector('#b16_color_mode_switch').getAttribute('data-bs-original-title') !== null) {
+                        document.querySelector('#b16_color_mode_switch').setAttribute('data-bs-original-title', this_mode_name + '；' + document.querySelector('#b16_color_mode_switch').getAttribute('data-real-original-title'));
+                    }
+                }
+                break;
+            default:
+                // Do nothing
+                break;
+        }
+        console.info('Current color mode: ' + mode);
+    }
+    function b16_switch_color_mode() {
+        switch (localStorage.getItem('b16_color_mode')) {
+            case 'light':
+                localStorage.setItem('b16_color_mode', 'dark');
+                break;
+            case 'dark':
+                localStorage.setItem('b16_color_mode', 'auto');
+                break;
+            case 'auto':
+                localStorage.setItem('b16_color_mode', 'light');
+                break;
+            default:
+                localStorage.setItem('b16_color_mode', 'light');
+                break;
+        }
+    }
+</script>
+<?php if($till_base16_settings['b16_inject_location'] === 'body_start'): ?>
+<script>b16_apply_color_mode(b16_get_color_mode(), true, false);</script>
+<?php endif; ?>
+
+<?php endif; ?>
+

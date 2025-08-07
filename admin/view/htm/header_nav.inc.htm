@@ -2,11 +2,12 @@
 
 	<!--{hook header_nav_start.htm}-->
 	
-	<header class="navbar navbar-expand-lg bg-white shadow-sm py-3" id="header">
+	<header class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm py-3" id="header">
 		<div class="container">
 			<!-- 左：折叠菜单的图标 ☰ -->
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="navbar_collapse" aria-expanded="false" aria-label="<?php echo lang('toggler_menu');?>">
-				<span class="navbar-toggler-icon"></span>
+				<!--<span class="navbar-toggler-icon"></span>-->
+				<a class="text-light"><i class="icon-bars"></i></a>
 			</button>
 			
 			<!-- 中：LOGO -->
@@ -31,11 +32,11 @@
 				<ul class="navbar-nav me-auto mt-2 mt-lg-0">
 					<!--{hook admin_header_nav_start.htm}-->
 					<li class="nav-item home">
-						<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
+						<a class="nav-link text-light" href="./"><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
 					</li>
 					<?php foreach ($menu as $k=>$v) { ?>
 					<li class="nav-item nav-item-<?php echo $k;?>">
-						<a class="nav-link" href="<?php echo $v['url'];?>"><i class="<?php echo $v['icon'];?>"></i> <?php echo $v['text'];?></a>
+						<a class="nav-link text-light" href="<?php echo $v['url'];?>"><i class="<?php echo $v['icon'];?>"></i> <?php echo $v['text'];?></a>
 					</li>
 					<?php  } ?>
 					<!--{hook admin_header_nav_end.htm}-->
@@ -44,16 +45,16 @@
 				<ul class="navbar-nav">
 					<!--{hook admin_header_nav_user_start.htm}-->
 					<li class="nav-item">
-						<a class="nav-link" href="../<?php echo url('my');?>">
+						<a class="nav-link text-light" href="../<?php echo url('my');?>">
 							<img class="avatar-1" src="<?php echo (strpos($user['avatar_url'], '//') === FALSE ? '../' : '').$user['avatar_url'];?>">
 							<?php echo isset($user['username']) ? $user['username'] : '';?>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="../"><i class="icon-home"></i> <?php echo lang('front_index_page');?></a>
+						<a class="nav-link text-light" href="../"><i class="icon-home"></i> <?php echo lang('front_index_page');?></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="<?php echo url('index-logout');?>"><i class="icon-sign-out"></i> <?php echo lang('logout');?></a>
+						<a class="nav-link text-light" href="<?php echo url('index-logout');?>"><i class="icon-sign-out"></i> <?php echo lang('logout');?></a>
 					</li>
 					<!--{hook admin_header_nav_user_end.htm}-->
 				</ul>
