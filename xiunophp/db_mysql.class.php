@@ -14,6 +14,9 @@ class db_mysql {
 	public $innodb_first = TRUE;// 优先 InnoDB
 	
 	public function __construct($conf) {
+		if(!function_exists('mysql_connect')) {
+			throw new Exception('db_mysql requires ext/mysql which was removed in PHP 7.0. Use pdo_mysql instead.');
+		}
 		$this->conf = $conf;
 		$this->tablepre = $conf['master']['tablepre'];
 	}

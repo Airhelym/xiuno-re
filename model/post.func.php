@@ -277,7 +277,8 @@ function post_find_by_pids($pids, $order = array('pid'=>-1)) {
 
 function post_highlight_keyword($str, $k) {
 	// hook model_post_highlight_keyword_start.php
-	$r = str_ireplace($k, '<span class="red">'.$k.'</span>', $str);
+	$h = htmlspecialchars($k);
+	$r = str_ireplace($k, '<span class="red">'.$h.'</span>', $str);
 	// hook model_post_highlight_keyword_end.php
 	return $r;
 }

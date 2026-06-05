@@ -1637,23 +1637,23 @@ class PHPMailer {
           return false;
         }
       }
-	  $magic_quotes = get_magic_quotes_runtime();
-	  if ($magic_quotes) {
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+ 	  $magic_quotes = function_exists('get_magic_quotes_runtime') ? get_magic_quotes_runtime() : false;
+ 	  if ($magic_quotes) {
+        if (version_compare(PHP_VERSION, '5.3.0', '<') && function_exists('set_magic_quotes_runtime')) {
           set_magic_quotes_runtime(0);
         } else {
-		  ini_set('magic_quotes_runtime', 0); 
-		}
-	  }
+ 		  @ini_set('magic_quotes_runtime', 0); 
+ 		}
+ 	  }
       $file_buffer  = file_get_contents($path);
       $file_buffer  = $this->EncodeString($file_buffer, $encoding);
-	  if ($magic_quotes) {
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+ 	  if ($magic_quotes) {
+        if (version_compare(PHP_VERSION, '5.3.0', '<') && function_exists('set_magic_quotes_runtime')) {
           set_magic_quotes_runtime($magic_quotes);
         } else {
-		  ini_set('magic_quotes_runtime', $magic_quotes); 
-	    }
-	  }
+ 		  @ini_set('magic_quotes_runtime', $magic_quotes); 
+ 	    }
+ 	  }
       return $file_buffer;
     } catch (Exception $e) {
       $this->SetError($e->getMessage());
@@ -1824,7 +1824,7 @@ class PHPMailer {
     $eol = "\r\n";
     $escape = '=';
     $output = '';
-    while( list(, $line) = each($lines) ) {
+    foreach($lines as $line) {
       $linlen = strlen($line);
       $newline = '';
       for($i = 0; $i < $linlen; $i++) {
@@ -2930,8 +2930,8 @@ class SMTP {
 
     $max_line_length = 998; // used below; set here for ease in change
 
-    while(list(,$line) = @each($lines)) {
-      $lines_out = null;
+    foreach($lines as $line) {
+      $lines_out = array();
       if($line == "" && $in_headers) {
         $in_headers = false;
       }
@@ -2959,7 +2959,7 @@ class SMTP {
       $lines_out[] = $line;
 
       // send the lines to the server
-      while(list(,$line_out) = @each($lines_out)) {
+      foreach($lines_out as $line_out) {
         if(strlen($line_out) > 0)
         {
           if(substr($line_out, 0, 1) == ".") {

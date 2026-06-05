@@ -1007,7 +1007,8 @@ function move_upload_file($srcfile, $destfile) {
 
 // 文件后缀名，不包含 .
 function file_ext($filename, $max = 16) {
-	$ext = strtolower(substr(strrchr($filename, '.'), 1));
+	$pos = strrchr($filename, '.');
+	$ext = $pos === FALSE ? '' : strtolower(substr($pos, 1));
 	$ext = xn_urlencode($ext);
 	strlen($ext) > $max AND $ext = substr($ext, 0, $max);
 	if(!preg_match('#^\w+$#', $ext)) $ext = 'attach';
@@ -1312,23 +1313,26 @@ function xn_debug_info() {
 	if(DEBUG > 1) {
 		$s .= '<fieldset class="fieldset small debug break-all">';
 		$s .= '<p>Processed Time:'.(microtime(1) - $starttime).'</p>';
-		if(IN_CMD) {
-			foreach($db->sqls as $sql) {
-				$s .= "$sql\r\n";
+		if($db && !empty($db->sqls)) {
+			if(IN_CMD) {
+				foreach($db->sqls as $sql) {
+					$s .= "$sql\r\n";
+				}
+			} else {
+				$s .= "\r\n<ul>\r\n";
+				foreach($db->sqls as $sql) {
+					$s .= "<li>$sql</li>\r\n";
+				}
+				$s .= "</ul>\r\n";
 			}
-		} else {
-			$s .= "\r\n<ul>\r\n";
-			foreach($db->sqls as $sql) {
-				$s .= "<li>$sql</li>\r\n";
-			}
-			$s .= "</ul>\r\n";
+		}
+		if(!IN_CMD) {
 			$s .= '_REQUEST:<br>';
 			$s .= xn_txt_to_html(print_r($_REQUEST, 1));
 			if(!empty($_SESSION)) {
 				$s .= '_SESSION:<br>';
 				$s .= xn_txt_to_html(print_r($_SESSION, 1));
 			}
-			$s .= '';
 		}
 		$s .= '</fieldset>';
 	}
