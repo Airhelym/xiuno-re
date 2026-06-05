@@ -2,7 +2,7 @@
 
 XIUNO · RE
 
-![master version](https://img.shields.io/badge/master-v1.1.1-%231ab1ad.svg) ![dev version](https://img.shields.io/badge/dev-v2.0.0_b3-brightgreen.svg)
+![master version](https://img.shields.io/badge/master-v1.1.1-%231ab1ad.svg) ![dev version](https://img.shields.io/badge/dev-v2.0.0_b4-brightgreen.svg)
 
 </div>
 
@@ -38,7 +38,9 @@ XIUNO · RE
 
 【持续补充……】
 
-***
+部分插件也在进行迁移，详见 [xiuno-re-plugins](https://github.com/Airhelym/xiuno-re-plugins) （但更新同样是佛系的）。
+
+-----
 
 【以下为 xiunobbs_4.0.4 原版说明文件】
 
