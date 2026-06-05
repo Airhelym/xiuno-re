@@ -1,0 +1,134 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+
+
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="btn-group mb-3" role="group">
+			<?php echo admin_tab_active($menu['setting']['tab'], 'base');?>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<!--
+				<h4 class="card-title"><?php echo lang('admin_setting_base');?></h4>
+				-->
+				<form action="<?php echo url('setting-base');?>" method="post" id="form">
+				
+					
+					
+					<div class="form-group mb-3 row">
+						<label class="col-sm-2 col-form-label"><?php echo lang('sitename');?>：</label>
+						<div class="col-sm-10">
+							<?php echo $input['sitename'];?>
+						</div>
+					</div>
+					
+					
+					
+					<div class="form-group mb-3 row">
+						<label class="col-sm-2 col-form-label"><?php echo lang('sitebrief');?>：</label>
+						<div class="col-sm-10">
+							<?php echo $input['sitebrief'];?>
+							<p class="mt-2 text-grey small"><?php echo lang('sitebrief_tips');?> </p>
+						</div>
+					</div>
+					
+					
+					
+					<div class="form-group mb-3 row">
+						<label class="col-sm-2 col-form-label"><?php echo lang('runlevel');?>：</label>
+						<div class="col-sm-10">
+							<?php echo $input['runlevel'];?>
+						</div>
+					</div>
+					
+					<div class="form-group mb-3 row">
+						<label class="col-sm-2 col-form-label"><?php echo lang('user_create_on');?>：</label>
+						<div class="col-sm-10">
+							<?php echo $input['user_create_on'];?>
+						</div>
+					</div>
+					
+					<div class="form-group mb-3 row">
+						<label class="col-sm-2 col-form-label"><?php echo lang('user_create_email_on');?>：</label>
+						<div class="col-sm-10">
+							<?php echo $input['user_create_email_on'];?>
+						</div>
+					</div>
+					
+					
+					<div class="form-group mb-3 row">
+						<label class="col-sm-2 col-form-label"><?php echo lang('user_resetpw_on');?>：</label>
+						<div class="col-sm-10">
+							<?php echo $input['user_resetpw_on'];?>
+						</div>
+					</div>
+					
+					
+					
+					<div class="form-group mb-3 row">
+						<label class="col-sm-2 col-form-label"><?php echo lang('lang');?>：</label>
+						<div class="col-sm-10">
+							<?php echo $input['lang'];?>
+						</div>
+					</div>
+										
+					
+
+					
+					<div class="form-group mb-3 row">
+						<label for="inputPassword3" class="col-sm-2 col-form-label"></label>
+						<div class="col-sm-10">
+							<button type="submit" class="btn btn-primary btn-block w-100" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+	
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+var jform = $('#form');
+var jsubmit = $('#submit');
+jform.on('submit', function() {
+    jform.reset();
+    jsubmit.prop('disabled', true).addClass('disabled');
+    jsubmit.html('<span class="spinner-border spinner-border-sm" role="status"></span> ' + jsubmit.data('loading-text'));
+    
+    var postdata = jform.serialize();
+    $.xpost(jform.attr('action'), postdata, function(code, message) {
+        if(code == 0) {
+            jsubmit.removeClass('btn-primary').addClass('btn-success');
+            jsubmit.html(message);
+            // 保留原有的弹窗功能
+            $.alert(message);
+            setTimeout(function() {
+                jsubmit.prop('disabled', false).removeClass('disabled btn-success').addClass('btn-primary');
+                jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('confirm');?>');
+            }, 2000);
+        } else if(xn.is_number(code)) {
+            jsubmit.prop('disabled', false).removeClass('disabled');
+            jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('confirm');?>');
+            // 保留原有的弹窗功能
+            alert(message);
+        } else {
+            jsubmit.prop('disabled', false).removeClass('disabled');
+            jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('confirm');?>');
+            // 保留原有的错误提示功能
+            jform.find('[name="'+code+'"]').alert(message).focus();
+        }
+    });
+    return false;
+});
+
+
+$('#nav li.nav-item-setting').addClass('active');
+
+</script>
+
+

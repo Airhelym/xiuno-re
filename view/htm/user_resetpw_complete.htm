@@ -8,21 +8,15 @@
 			<div class="card-body">
 				<form action="<?php echo url('user-resetpw_complete');?>" method="post" id="form">
 					<div class="mb-3 input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="icon icon-envelope icon-fw"></i></span>
-						</div>
+						<span class="input-group-text"><i class="icon icon-envelope icon-fw"></i></span>
 						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email" value="<?php echo $email;?>" disabled>
 					</div>
 					<div class="mb-3 input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="icon icon-lock icon-fw"></i></span>
-						</div>
+						<span class="input-group-text"><i class="icon icon-lock icon-fw"></i></span>
 						<input type="password" class="form-control" placeholder="<?php echo lang('password_new');?>" id="password" name="password">
 					</div>
 					<div class="mb-3 input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="icon icon-lock icon-fw"></i></span>
-						</div>
+						<span class="input-group-text"><i class="icon icon-lock icon-fw"></i></span>
 						<input type="password" class="form-control" placeholder="<?php echo lang('password_new_repeat');?>" id="password2">
 					</div>
 					<p>
@@ -42,44 +36,6 @@ var jform = $('#form');
 var jsubmit = $('#submit');
 var jpassword = $('#password');
 var jpassword2 = $('#password2');
-jsend.on('click', function() {
-    jform.reset();
-    jsend.prop('disabled', true).addClass('disabled');
-    jsend.html('<span class="spinner-border spinner-border-sm" role="status"></span> ' + jsend.data('loading-text'));
-    
-    var postdata = jform.serialize();
-    $.xpost(jsend.attr('action'), postdata, function(code, message) {
-        if(code == 0) {
-            $('#code').focus();
-            var t = 60;
-            jsend.removeClass('btn-primary').addClass('btn-success');
-            jsend.html('<?php echo lang('user_send_sucessfully');?> 60 ');
-            jsubmit.prop('disabled', false).removeClass('disabled');
-            
-            var handler = setInterval(function() {
-                t--;
-                jsend.html('<?php echo lang('user_send_sucessfully');?> ' + t + ' ');
-                if(t == 0) {
-                    clearInterval(handler);
-                    jsend.prop('disabled', false).removeClass('disabled btn-success').addClass('btn-primary');
-                    jsend.html('<?php echo lang('send_verify_code');?>');
-                }
-            }, 1000);
-        } else if(code < 0) {
-            jsend.prop('disabled', false).removeClass('disabled');
-            jsend.html(jsend.data('default-text') || '<?php echo lang('send_verify_code');?>');
-            $.alert(message);
-        } else {
-            jsend.prop('disabled', false).removeClass('disabled');
-            jsend.html(jsend.data('default-text') || '<?php echo lang('send_verify_code');?>');
-            var jinput = jform.find('[name="'+code+'"]');
-            jinput.addClass('is-invalid');
-            jinput.next('.invalid-feedback').text(message);
-            jinput.focus();
-        }
-    });
-    return false;
-});
 
 jform.on('submit', function() {
     jform.reset();
@@ -94,7 +50,7 @@ jform.on('submit', function() {
             setTimeout(function() {
                 $.alert(message);
                 setTimeout(function() {
-                    window.location.href = xn.url('user-resetpw_complete');
+                    window.location.href = xn.url('user-login');
                 }, 1000);
             }, 500);
         } else if(xn.is_number(code)) {

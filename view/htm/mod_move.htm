@@ -5,13 +5,13 @@
 	<div class="card-body ajax-body">
 		<form action="<?php echo url("mod-move");?>" method="post" id="mod_move_form">
 			<div class="mb-3 row">
-				<label class="col-4 form-control-label text-end"><?php echo lang('total');?>：</label>
+				<label class="col-4 col-form-label text-end"><?php echo lang('total');?>：</label>
 				<div class="col-8">
 					<span class="total fw-bold text-danger"></span> <?php echo lang('piece');?>
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label class="col-4 form-control-label text-end"><?php echo lang('choose_move_forum');?>：</label>
+				<label class="col-4 col-form-label text-end"><?php echo lang('choose_move_forum');?>：</label>
 				<div class="col-8">
 					<select class="form-select w-auto" name="newfid">
 						<?php echo form_options($forumarr, 0);?>
@@ -19,7 +19,7 @@
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label class="col-4 form-control-label text-end"></label>
+				<label class="col-4 col-form-label text-end"></label>
 				<div class="col-8">
 					<button type="submit" class="btn btn-primary me-2" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
 					<button type="button" class="btn btn-secondary"><?php echo lang('close');?></button>

@@ -1449,14 +1449,11 @@ $.fn.location = function(href) {
 	});
 };
 
-// 在控件上方提示错误信息，如果为手机版，则调用 toast
+// 在控件上方提示错误信息，兼容 Bootstrap 5 表单验证
 $.fn.alert = function(message) {
 	var jthis = $(this);
-	jpthis = jthis.parent('.form-group');
-	jpthis.addClass('has-danger');
-	jthis.addClass('form-control-danger');
-	//if(in_mobile) alert(message);
-	jthis.data('title', message).tooltip('show');
+	jthis.addClass('is-invalid');
+	jthis.next('.invalid-feedback').text(message);
 	return this;
 };
 

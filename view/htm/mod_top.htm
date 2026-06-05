@@ -5,13 +5,13 @@
 	<div class="card-body ajax-body">
 		<form action="<?php echo url("mod-top");?>" method="post" id="mod_top_form">
 			<div class="mb-3 row">
-				<label class="col-4 form-control-label text-end"><?php echo lang('total');?>：</label>
+				<label class="col-4 col-form-label text-end"><?php echo lang('total');?>：</label>
 				<div class="col-8">
 					<span class="total fw-bold text-danger"></span> <?php echo lang('piece');?>
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label class="col-4 form-control-label text-end"><?php echo lang('top_range');?>：</label>
+				<label class="col-4 col-form-label text-end"><?php echo lang('top_range');?>：</label>
 				<div class="col-8">
 					<label class="form-input form-radio"><input type="radio" name="top" value="0" /><?php echo lang('top_0');?></label>　
 					<label class="form-input form-radio"><input type="radio" name="top" value="1" /><?php echo lang('top_1');?></label>　
@@ -19,7 +19,7 @@
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label class="col-4 form-control-label text-end"></label>
+				<label class="col-4 col-form-label text-end"></label>
 				<div class="col-8">
 					<button type="submit" class="btn btn-primary" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
 					<button type="button" class="btn btn-secondary"><?php echo lang('close');?></button>

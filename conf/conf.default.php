@@ -123,7 +123,7 @@ return array (
 	'disabled_plugin' => 0, 
 	  
 	'version' => '4.0.4',
-	'xnre-version' => '2.0.0-b3',
+	'xnre-version' => '2.0.0-b4',
 
 	'static_version' => '?1.0',
 	'installed' => 0,

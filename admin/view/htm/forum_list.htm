@@ -71,16 +71,22 @@ jform.base64_encode_file(); // 对文件进行 base64 编码，处理文件上�
 
 jform.on('submit', function(){
 	jform.reset();
+	jsubmit.prop('disabled', true).addClass('disabled');
+	jsubmit.html('<span class="spinner-border spinner-border-sm" role="status"></span> ' + jsubmit.data('loading-text'));
 	var postdata = jform.serialize();
-	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			$.alert(message);
-			jsubmit.text(message).delay(3000).location();
+			jsubmit.removeClass('btn-primary').addClass('btn-success');
+			jsubmit.html(message);
+			setTimeout(function() {
+				window.location.reload();
+			}, 3000);
 			return;
 		} else {
 			alert(message);
-			jsubmit.button('reset');
+			jsubmit.prop('disabled', false).removeClass('disabled');
+			jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('confirm');?>');
 		}
 	});
 	return false;

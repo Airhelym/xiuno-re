@@ -74,27 +74,23 @@ var jform = $("#form");
 var jsubmit = $("#submit");
 jform.on('submit', function(){
     jform.reset();
-    var jsubmitText = jsubmit.find('.submit-text');
-    var jspinner = jsubmit.find('.spinner-border');
-    jsubmit.prop('disabled', true);
-    jspinner.removeClass('d-none');
-    jsubmitText.text(jsubmit.data('loading-text'));
+    jsubmit.prop('disabled', true).addClass('disabled');
+    jsubmit.html('<span class="spinner-border spinner-border-sm" role="status"></span> ' + jsubmit.data('loading-text'));
     
     var postdata = jform.serialize();
     $.xpost(jform.attr('action'), postdata, function(code, message) {
         if(code == 0) {
             $.alert(message);
-            jsubmitText.text(message);
+            jsubmit.removeClass('btn-primary').addClass('btn-success');
+            jsubmit.html(message);
             setTimeout(function() {
-                jsubmit.prop('disabled', false);
-                jspinner.addClass('d-none');
-                jsubmitText.text('<?php echo lang('confirm');?>');
+                jsubmit.prop('disabled', false).removeClass('disabled btn-success').addClass('btn-primary');
+                jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('confirm');?>');
             }, 1000);
         } else {
             $.alert(message);
-            jsubmit.prop('disabled', false);
-            jspinner.addClass('d-none');
-            jsubmitText.text('<?php echo lang('confirm');?>');
+            jsubmit.prop('disabled', false).removeClass('disabled');
+            jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('confirm');?>');
         }
     });
     return false;
