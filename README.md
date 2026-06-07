@@ -37,7 +37,7 @@ XIUNO · RE
 - [x] 初步适配 Base16配色助手 插件
 - [x] 修复部分情况下出现`Blocked aria-hidden on an element`提示的问题
 - [x] 修复安装时存在的错误
-- [ ] 增加安装后的文件锁
+- [x] 增加安装后的文件锁
 
 【持续补充……】
 

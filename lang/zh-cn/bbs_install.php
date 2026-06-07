@@ -59,6 +59,10 @@ Xiuno BBS 4.0 采用 MIT 协议发布，您可以自由修改、派生版本、�
 	'function_gzcompress_not_exists' => '后台插件功能依赖该函数，Linux 主机请添加编译参数 --with-zlib，Windows 主机请配置 php.ini 注释掉 extension=php_zlib.dll',
 	'function_mb_substr_not_exists' => '系统依赖该函数，Linux 主机请添加编译参数 --with-mbstring，Windows 主机请配置 php.ini 注释掉 extension=php_mbstring.dll',
 	
+	'install_locked_title' => '安装已锁定',
+	'install_locked_desc' => '检测到 install.lock 文件存在，为了防止被恶意重装，安装程序已被锁定。',
+	'install_locked_tip' => '如需重新安装，请手动删除 install/install.lock 文件后再访问本页。',
+
 	// hook lang_zh_cn_bbs_install.php
 
 );

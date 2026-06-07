@@ -58,6 +58,10 @@ Xiuno BBS 4 ใช้งานข้อตกลง MIT คุณสามาร
 	'function_gzcompress_not_exists' => 'จำเป็นต้องมีการติดตั้งส่วนขยายเพิ่มเติม สำหรับเซิร์ฟเวอร์ Linux ให้เพิ่ม compile argument: --with-zlib, ส่วนเซิร์ฟเวอร์ Windows กรุณาตั้งค่า php.ini ให้เปิด extension=php_zlib.dll',
 	'function_mb_substr_not_exists' => 'จำเป็นต้องมีในระบบ สำหรับเซิร์ฟเวอร์ Linux ให้เพิ่ม compile argument: --with-mbstring, ส่วนเซิร์ฟเวอร์ Windows กรุณาตั้งค่า php.ini ให้เปิด extension=php_mbstring.dll',
 	
+	'install_locked_title' => 'การติดตั้งถูกล็อค',
+	'install_locked_desc' => 'ตรวจพบไฟล์ install.lock เพื่อป้องกันการติดตั้งซ้ำที่ไม่พึงประสงค์ ตัวติดตั้งจึงถูกล็อค',
+	'install_locked_tip' => 'หากต้องการติดตั้งใหม่ กรุณาลบไฟล์ install/install.lock ออกด้วยตนเอง แล้วเข้าใช้งานหน้านี้อีกครั้ง',
+
 	// hook lang_th_th_bbs_install.php
 );
 

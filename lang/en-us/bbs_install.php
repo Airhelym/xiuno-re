@@ -58,6 +58,10 @@ BBS Xiuno 4 using the MIT agreement, you can freely modify, derived version, com
 	'function_gzcompress_not_exists' => 'Plugin install dependent on it, on Linux server, add compile argument: --with-zlib, on Windows Server, please setting php.ini open extension=php_zlib.dll',
 	'function_mb_substr_not_exists' => 'System dependent on it, on Linux server, add compile argument: --with-mbstring, on Windows Server, please setting php.ini open extension=php_mbstring.dll',
 	
+	'install_locked_title' => 'Installation Locked',
+	'install_locked_desc' => 'The install.lock file was detected. To prevent malicious reinstallation, the installer has been locked.',
+	'install_locked_tip' => 'To reinstall, manually delete install/install.lock and then access this page again.',
+
 	// hook lang_en_us_bbs_install.php
 );
 

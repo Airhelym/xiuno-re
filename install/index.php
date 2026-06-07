@@ -23,6 +23,12 @@ include APP_PATH.'model/form.func.php';
 include APP_PATH.'model/forum.func.php';
 include INSTALL_PATH.'install.func.php';
 
+// 安装锁检测: 若存在 install.lock 文件，则阻止安装程序运行
+if(is_file(INSTALL_PATH.'install.lock')) {
+	include INSTALL_PATH.'view/htm/lock.htm';
+	exit;
+}
+
 $action = param('action');
 
 // 安装初始化检测,放这里
@@ -217,6 +223,9 @@ if(empty($action)) {
 		xn_mkdir(APP_PATH.'upload/attach', 0777);
 		xn_mkdir(APP_PATH.'upload/avatar', 0777);
 		xn_mkdir(APP_PATH.'upload/forum', 0777);
+		
+		// 创建安装锁，防止被恶意重装
+		file_put_contents(INSTALL_PATH.'install.lock', '');
 		
 		message(0, jump(lang('conguralation_installed'), '../'));
 	}
