@@ -118,7 +118,9 @@ $_SERVER['get_magic_quotes_gpc'] = $get_magic_quotes_gpc;
 $db = !empty($conf['db']) ? db_new($conf['db']) : NULL;
 //$db AND $db->errno AND xn_message(-1, $db->errstr); // 安装的时候检测过了，不必每次都检测。但是要考虑环境移植。
 
-$conf['cache']['mysql']['db'] = $db; // 这里直接传 $db，复用 $db；如果传配置文件，会产生新链接。
+if(is_object($db)) {
+	$conf['cache']['mysql']['db'] = $db; // 复用 db 连接
+}
 $cache = !empty($conf['cache']) ? cache_new($conf['cache']) : NULL;
 unset($conf['cache']['mysql']['db']); // 用完清除，防止保存到配置文件
 //$cache AND $cache->errno AND xn_message(-1, $cache->errstr);

@@ -5,8 +5,9 @@ function db_new($dbconf) {
 	global $errno, $errstr;
 	// 数据库初始化，这里并不会产生连接！
 	if($dbconf) {
-		//print_r($dbconf);
-		// 代码不仅仅是给人看的，更重要的是给编译器分析的，不要玩 $db = new $dbclass()，那样不利于优化和 opcache 。
+		if(!isset($dbconf['type'])) {
+			return xn_error(-1, 'Database type not set.');
+		}
 		try {
 			switch ($dbconf['type']) {
 				case 'mysql':      $db = new db_mysql($dbconf['mysql']); 		break;

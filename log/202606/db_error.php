@@ -1,0 +1,1 @@
+<?php exit;?>	2026-06-07 21:17:09	127.0.0.1	/admin/?plugin-unstall-xnre_notice_pm.htm	1	SQL:ALTER TABLE bbs_user DROP COLUMN pm_unread; errno: 42000, errstr: SQLSTATE[42000]: Syntax error or access violation: 1091 Can't DROP 'pm_unread'; check that column/key exists

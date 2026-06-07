@@ -166,7 +166,9 @@ if(empty($action)) {
 			}
 		}
 		
-		$conf['cache']['mysql']['db'] = $db; // 这里直接传 $db，复用 $db；如果传配置文件，会产生新链接。
+		if(is_object($db)) {
+			$conf['cache']['mysql']['db'] = $db; // 复用 db 连接
+		}
 		$_SERVER['cache'] = $cache = !empty($conf['cache']) ? cache_new($conf['cache']) : NULL;
 		
 		// 设置引擎的类型
