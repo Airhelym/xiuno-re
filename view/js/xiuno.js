@@ -1450,7 +1450,7 @@ $.fn.location = function(href) {
 };
 
 // 在控件上方提示错误信息，兼容 Bootstrap 5 表单验证
-$.fn.alert = function(message) {
+$.fn.fieldAlert = function(message) {
 	var jthis = $(this);
 	jthis.addClass('is-invalid');
 	jthis.next('.invalid-feedback').text(message);

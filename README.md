@@ -2,7 +2,7 @@
 
 XIUNO · RE
 
-![master version](https://img.shields.io/badge/master-v1.1.1-%231ab1ad.svg) ![dev version](https://img.shields.io/badge/dev-v2.0.0_b4-brightgreen.svg)
+![master version](https://img.shields.io/badge/master-v1.1.1-%231ab1ad.svg) ![dev version](https://img.shields.io/badge/dev-v2.0.0_b6-brightgreen.svg)
 
 </div>
 
@@ -35,6 +35,7 @@ XIUNO · RE
 - [x] 前台基本适配
 - [x] 后台基本适配
 - [x] 初步适配 Base16配色助手 插件
+- [x] 修复部分情况下出现`Blocked aria-hidden on an element`提示的问题
 
 【持续补充……】
 

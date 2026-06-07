@@ -389,3 +389,10 @@ $(function() {
         $('.checkall').prop('checked', allChecked);
     });
 });
+
+// 全局：所有模态框关闭前失焦，避免 aria-hidden 警告（兼容旧插件）
+$(document).on('hide.bs.modal', '.modal', function() {
+    if(document.activeElement && this.contains(document.activeElement)) {
+        document.activeElement.blur();
+    }
+});

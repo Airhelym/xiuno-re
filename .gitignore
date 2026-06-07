@@ -1,2 +1,9 @@
 /tmp/*
 !/tmp/.gitkeep
+/plugin/*
+!/plugin/.gitkeep
+/test/*
+/no/*
+/*.bat
+/*.txt
+/*.sh

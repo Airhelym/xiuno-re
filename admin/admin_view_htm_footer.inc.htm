@@ -1,0 +1,69 @@
+
+
+<?php $db = G('db');?>
+<?php $time = G('time');?>
+<?php $ip = G('ip');?>
+<?php $useragent = G('useragent');?>
+<?php $starttime = G('starttime');?>
+<?php $forumlist = G('forumlist');?>
+<?php $forumarr = G('forumarr');?>
+<?php $fid = G('fid');?>
+<?php $conf = G('conf');?>
+<?php $static_version = $conf['static_version'];?>
+
+			<?php echo xn_debug_info();?>
+		</div>
+	</main>
+
+	
+	
+	<footer class="bg-dark border-top py-4 mt-5 text-light small" id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					
+					Based on Xiuno <b><span><?php echo $conf['version'];?></span></b>
+					
+				</div>
+				<div class="col text-end">
+					
+					Time: <b><?php echo substr(microtime(1) - $starttime, 0, 5);?></b>, SQL: <b><?php echo count($db->sqls);?></b>
+					
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	
+	
+	<!--[if lt IE 9]>
+	<script>window.location = '<?php echo url('browser');?>';</script>
+	<![endif]-->
+	
+	
+	
+	<script src="../lang/<?php echo $conf['lang'];?>/bbs.js<?php echo $static_version;?>"></script>
+	<script src="../view/js/jquery-3.1.0.js<?php echo $static_version;?>"></script>
+	
+	<script src="../view/js/xiuno.js<?php echo $static_version;?>"></script>
+	<script src="../view/js/bootstrap-plugin.js<?php echo $static_version;?>"></script>
+	<script src="../view/js/async.js<?php echo $static_version;?>"></script>
+	<script src="../view/js/form.js<?php echo $static_version;?>"></script>
+	
+  <!-- Bootstrap 5 JS -->
+	<script src="../view/js/bootstrap-5.bundle.min.js"></script>
+	
+	<script>
+	var debug = DEBUG = <?php echo DEBUG; ?>;
+	var url_rewrite_on = <?php echo $conf['url_rewrite_on'];?>;
+	var fid = <?php echo $fid;?>;
+	</script>
+	<script src="../view/js/bbs.js<?php echo $static_version;?>"></script>
+	
+	<script src="../plugin/xnre_compat_conv/view/js/xnre-compat-bs4.js"></script>
+
+	
+</body>
+</html>
+
+

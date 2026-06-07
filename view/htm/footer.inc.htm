@@ -43,6 +43,20 @@
   <!-- Bootstrap 5 JS -->
 	<script src="view/js/bootstrap-5.bundle.min.js"></script>
 	
+	<!-- 向后兼容垫片：$.fn.alert 智能路由 -->
+	<script>
+	(function() {
+		var bsAlert = $.fn.alert;
+		var bsMethods = ['close', 'dispose'];
+		$.fn.alert = function(option) {
+			if(typeof option === 'string' && bsMethods.indexOf(option) === -1) {
+				return $(this).fieldAlert(option);
+			}
+			return bsAlert.apply(this, arguments);
+		};
+	})();
+	</script>
+	
 	<script>
 	var debug = DEBUG = <?php echo DEBUG; ?>;
 	var url_rewrite_on = <?php echo $conf['url_rewrite_on'];?>;

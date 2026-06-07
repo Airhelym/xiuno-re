@@ -234,7 +234,7 @@ jform.on('submit', function() {
 			jsubmit.prop('disabled', false).removeClass('disabled');
 			jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('post_create');?>');
 		} else {
-			jform.find('[name="'+code+'"]').alert(message).focus();
+			jform.find('[name="'+code+'"]').fieldAlert(message).focus();
 			jsubmit.prop('disabled', false).removeClass('disabled');
 			jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('post_create');?>');
 		}
