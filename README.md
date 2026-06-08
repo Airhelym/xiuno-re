@@ -2,7 +2,7 @@
 
 XIUNO · RE
 
-![master version](https://img.shields.io/badge/master-v1.1.1-%231ab1ad.svg) ![dev version](https://img.shields.io/badge/dev-v2.0.0_b7-brightgreen.svg)
+![master version](https://img.shields.io/badge/master-v1.1.1-%231ab1ad.svg) ![dev version](https://img.shields.io/badge/dev-v2.0.0_b9-brightgreen.svg)
 
 </div>
 
@@ -35,9 +35,10 @@ XIUNO · RE
 - [x] 前台基本适配
 - [x] 后台基本适配
 - [x] 初步适配 Base16配色助手 插件
-- [x] 修复部分情况下出现`Blocked aria-hidden on an element`提示的问题
-- [x] 修复安装时存在的错误
-- [x] 增加安装后的文件锁
+- [x] 修复部分情况下出现`Blocked aria-hidden on an element`提示的问题`【2.0.0-b6】`
+- [x] 修复安装时存在的错误`【2.0.0-b7】`
+- [x] 增加安装后的文件锁`【2.0.0-b8】`
+- [x] 调整自带的表单控件外观，从 BS4 调整为 BS5 样式`【2.0.0-b9】`
 
 【持续补充……】
 
