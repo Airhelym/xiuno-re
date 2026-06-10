@@ -145,8 +145,10 @@ body {
 /* 小屏 + 中屏: small + middle */
 @media (max-width: 992px) {
   #nav {
-    padding-top: 1.5rem;
     padding-left: 0.5rem;
+  }
+  #nav > ul:first-child {
+    padding-top: 1.5rem;
   }
   #nav > ul:first-child > li:not(:first-child) {
     padding-left: 3rem;
