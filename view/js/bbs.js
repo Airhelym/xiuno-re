@@ -127,13 +127,19 @@ $('a.confirm').on('click', function() {
 	return false;
 });
 
-// 选中所有 / check all
-// <input class="checkall" data-target=".tid" />
-$('input.checkall').on('click', function() {
+// 全选功能 - 正向同步
+$(document).on('change', 'input.checkall', function() {
 	var jthis = $(this);
 	var target = jthis.data('target');
-	jtarget = $(target);
-	jtarget.prop('checked', this.checked);
+	if(target) {
+		$(target).prop('checked', this.checked);
+	}
+});
+
+// 保持复选框状态 - 反向同步
+$(document).on('change', 'input[name="modtid"]', function() {
+	var allChecked = $('input[name="modtid"]').length === $('input[name="modtid"]:checked').length;
+	$('.checkall').prop('checked', allChecked);
 });
 
 /*

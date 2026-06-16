@@ -2,7 +2,7 @@
 
 XIUNO · RE
 
-![master version](https://img.shields.io/badge/master-v1.1.1-%231ab1ad.svg) ![dev version](https://img.shields.io/badge/dev-v2.0.0_b9-brightgreen.svg)
+![master version](https://img.shields.io/badge/master-v1.1.1-%231ab1ad.svg) ![dev version](https://img.shields.io/badge/dev-v2.0.0_b10-brightgreen.svg)
 
 </div>
 
@@ -24,9 +24,8 @@ XIUNO · RE
 
 - [x] 修复 PHP7.4、PHP8.0 的兼容问题
 - [x] 编码从 utf8 改为 utf8mb4，解决 emoji 显示问题
-- [x] 由于 xiuno 的时间显示太过于友好，时间超过一年才显示年月日，不方便查看，故改为三日后显示年月日（不习惯的可以自行搜索修改日期的方法，然后自己逆推一下）
+- [x] 将 xiuno 的时间显示调整为：三日后显示具体年月日
 - [x] 修复后台插件页面打不开的问题；将启用的插件排在前面
-- [x] 方便了自定义论坛背景（若不修改 css，也可将背景重命名为 background.png 后放入/view/img 目录下。已简单处理，图片可自适应）
 - [x] 修复 http_url_path 方法在 php8.1 下报错问题
 
 **Dev**
@@ -40,6 +39,7 @@ XIUNO · RE
 - [x] 增加安装后的文件锁`【2.0.0-b8】`
 - [x] 调整自带的表单控件外观，从 BS4 调整为 BS5 样式`【2.0.0-b9】`
 - [x] 调整样式文件，修复移动端特定情况下导航栏抖动的问题`【2.0.0-b9】`
+- [x] 调整部分样式，修复特定情况下模态框和复选框的响应问题`【2.0.0-b10】`
 
 【持续补充……】
 

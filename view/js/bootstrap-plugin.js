@@ -376,20 +376,6 @@ $(function() {
     });
 });
 
-$(function() {
-    // 全选功能
-    $('.checkall').on('change', function() {
-        var checked = $(this).prop('checked');
-        $('input[name="modtid"]').prop('checked', checked);
-    });
-    
-    // 保持复选框状态
-    $(document).on('change', 'input[name="modtid"]', function() {
-        var allChecked = $('input[name="modtid"]').length === $('input[name="modtid"]:checked').length;
-        $('.checkall').prop('checked', allChecked);
-    });
-});
-
 // 全局：所有模态框关闭前失焦，避免 aria-hidden 警告（兼容旧插件）
 $(document).on('hide.bs.modal', '.modal', function() {
     if(document.activeElement && this.contains(document.activeElement)) {

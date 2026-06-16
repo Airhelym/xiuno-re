@@ -119,9 +119,9 @@
 									<input type="hidden" name="doctype" value="1" />
 									<input type="hidden" name="return_html" value="1" />
 									<input type="hidden" name="quotepid" value="0" />
-									
 									<div class="message mt-1">
 										<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message"></textarea>
+										<div class="invalid-feedback"></div>
 									</div>
 									<div class="text-muted mt-2 small">
 										<div class="d-flex justify-content-between">
@@ -208,100 +208,93 @@
 var jform = $('#quick_reply_form');
 var jsubmit = $('#submit');
 jform.on('submit', function() {
-	jform.reset();
-	jsubmit.prop('disabled', true).addClass('disabled');
-	jsubmit.html('<span class="spinner-border spinner-border-sm" role="status"></span> ' + jsubmit.data('loading-text'));
-	var postdata = jform.serialize();
-	$.xpost(jform.attr('action'), postdata, function(code, message) {
-		if(code == 0) {
-			var s = '<ul>'+message+'</ul>';
-			var jli = $(s).find('li');
-			jli.insertBefore($('.postlist > .post').last());
-			jsubmit.prop('disabled', false).removeClass('disabled');
-			jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('post_create');?>');
-			$('#message').val('');
-			
-			// 楼层 +1
-			var jfloor = $('#newfloor');
-			jfloor.html(xn.intval(jfloor.html()) + 1);
-			
-			// 回复数 +1
-			var jposts = $('.posts');
-			jposts.html(xn.intval(jposts.html()) + 1);
-			
-		} else if(code < 0) {
-			$.alert(message);
-			jsubmit.prop('disabled', false).removeClass('disabled');
-			jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('post_create');?>');
-		} else {
-			jform.find('[name="'+code+'"]').fieldAlert(message).focus();
-			jsubmit.prop('disabled', false).removeClass('disabled');
-			jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('post_create');?>');
-		}
-	});
-	return false;
+  var jmsg = $('#message');
+  if(!$.trim(jmsg.val())) {
+    jmsg.addClass('is-invalid');
+    jmsg.next('.invalid-feedback').html('<i class="bi bi-exclamation-circle me-1"></i><?php echo lang('please_input_message');?>');
+    jmsg.focus();
+    return false;
+  }
+  jmsg.removeClass('is-invalid');
+  jform.reset();
+  jsubmit.prop('disabled', true).addClass('disabled');
+  jsubmit.html('<span class="spinner-border spinner-border-sm" role="status"></span> ' + jsubmit.data('loading-text'));
+  var postdata = jform.serialize();
+  $.xpost(jform.attr('action'), postdata, function(code, message) {
+    if(code == 0) {
+      var s = '<ul>'+message+'</ul>';
+      var jli = $(s).find('li');
+      jli.insertBefore($('.postlist > .post').last());
+      jsubmit.prop('disabled', false).removeClass('disabled');
+      jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('post_create');?>');
+      $('#message').val('');
+      var jfloor = $('#newfloor');
+      jfloor.html(xn.intval(jfloor.html()) + 1);
+      var jposts = $('.posts');
+      jposts.html(xn.intval(jposts.html()) + 1);
+    } else if(code < 0) {
+      $.alert(message);
+      jsubmit.prop('disabled', false).removeClass('disabled');
+      jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('post_create');?>');
+    } else {
+      jform.find('[name="'+code+'"]').fieldAlert(message).focus();
+      jsubmit.prop('disabled', false).removeClass('disabled');
+      jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('post_create');?>');
+    }
+  });
+  return false;
 });
 
-
-// 缩放图片，适应屏幕大小。
 function resize_image() {
-	var jmessagelist = $('div.message');
-	var first_width = jmessagelist.width(); // 815 : 746; //  734 746
-	jmessagelist.each(function() {
-		var jdiv = $(this);
-		var maxwidth = jdiv.attr('isfirst') ? first_width : jdiv.width(); //  734 746
-		var jmessage_width = Math.min(jdiv.width(), maxwidth);
-		jdiv.find('img, embed, iframe, video').each(function() {
-			var jimg = $(this);
-			var img_width = this.org_width;
-			var img_height = this.org_height;
-			if(!img_width) {
-				var img_width = jimg.attr('width');
-				var img_height = jimg.attr('height');
-				this.org_width = img_width;
-				this.org_height = img_height;
-			}
-			//var percent = xn.min(100, xn.ceil((img_width / jmessage_width) * 100));
-			if(img_width > jmessage_width) {
-				if(this.tagName == 'IMG') {
-					jimg.width(jmessage_width);
-					jimg.css('height', 'auto');
-					jimg.css('cursor', 'pointer');
-					jimg.on('click', function() {
-						//window.open(jimg.attr('src'));
-					});
-				} else {
-					jimg.width(jmessage_width);
-					var height = (img_height / img_width) * jimg.width();
-					jimg.height(height);
-				}
-			}
-		});
-	});
+  var jmessagelist = $('div.message');
+  var first_width = jmessagelist.width();
+  jmessagelist.each(function() {
+    var jdiv = $(this);
+    var maxwidth = jdiv.attr('isfirst') ? first_width : jdiv.width();
+    var jmessage_width = Math.min(jdiv.width(), maxwidth);
+    jdiv.find('img, embed, iframe, video').each(function() {
+      var jimg = $(this);
+      var img_width = this.org_width;
+      var img_height = this.org_height;
+      if(!img_width) {
+        var img_width = jimg.attr('width');
+        var img_height = jimg.attr('height');
+        this.org_width = img_width;
+        this.org_height = img_height;
+      }
+      if(img_width > jmessage_width) {
+        if(this.tagName == 'IMG') {
+          jimg.width(jmessage_width);
+          jimg.css('height', 'auto');
+          jimg.css('cursor', 'pointer');
+        } else {
+          jimg.width(jmessage_width);
+          var height = (img_height / img_width) * jimg.width();
+          jimg.height(height);
+        }
+      }
+    });
+  });
 }
 
-// 对于超宽的表格，加上响应式
 function resize_table() {
-	$('div.message').each(function() {
-		var jdiv = $(this);
-		jdiv.find('table').addClass('table').wrap('<div class="table-responsive"></div>'); 
-	});
+  $('div.message').each(function() {
+    var jdiv = $(this);
+    jdiv.find('table').addClass('table').wrap('<div class="table-responsive"></div>');
+  });
 }
 
 $(function() {
-	resize_image();
-	resize_table();
-	$(window).on('resize', resize_image);
+  resize_image();
+  resize_table();
+  $(window).on('resize', resize_image);
 });
-
-// 输入框自动伸缩
 
 var jmessage = $('#message');
 jmessage.on('focus', function() {if(jmessage.t) { clearTimeout(jmessage.t); jmessage.t = null; } jmessage.css('height', '8rem'); });
 jmessage.on('blur', function() {jmessage.t = setTimeout(function() { jmessage.css('height', '2.5rem');}, 1000); });
 
 $('li[data-active="fid-<?php echo $fid;?>"]').addClass('active');
-
 </script>
 
 <?php if($thread['closed'] && ($gid == 0 || $gid > 5)) { ?>
