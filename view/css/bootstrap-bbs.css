@@ -3493,3 +3493,32 @@ a {
     --bs-text-opacity:1;color:rgba(var(--bs-light-rgb),var(--bs-text-opacity)) !important;
 }
 */
+
+/* 错误提示 Tooltip 样式（黑底白字，兼容原版 Xiuno BS4） */
+.tooltip-error .tooltip-inner {
+  background-color: #000;
+  color: #fff;
+  max-width: 200px;
+  padding: 6px 12px;
+  text-align: center;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.tooltip-error .tooltip-arrow::before {
+  border-top-color: #000;
+}
+
+.tooltip-error.bs-tooltip-bottom .tooltip-arrow::before {
+  border-bottom-color: #000;
+}
+
+.tooltip-error.bs-tooltip-start .tooltip-arrow::before,
+.tooltip-error.bs-tooltip-left .tooltip-arrow::before {
+  border-left-color: #000;
+}
+
+.tooltip-error.bs-tooltip-end .tooltip-arrow::before,
+.tooltip-error.bs-tooltip-right .tooltip-arrow::before {
+  border-right-color: #000;
+}

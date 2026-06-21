@@ -19,13 +19,11 @@
 						-->
 						<span class="input-group-text"><i class="icon icon-user icon-fw"></i></span>
 						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" id="email" name="email">
-						<div class="invalid-feedback"></div>
 					</div>
 					<!--{hook user_login_email_after.htm}-->
 					<div class="mb-3 input-group">
 						<span class="input-group-text"><i class="icon icon-lock icon-fw"></i></span>
 						<input type="password" class="form-control" placeholder="<?php echo lang('password');?>" id="password" name="password">
-						<div class="invalid-feedback"></div>
 					</div>
 					<!--{hook user_login_password_after.htm}-->
 					<div class="mb-3">
@@ -86,10 +84,7 @@ jform.on('submit', function() {
         } else {
             jsubmit.prop('disabled', false).removeClass('disabled');
             jsubmit.html(jsubmit.data('default-text') || '<?php echo lang('login');?>');
-            var jinput = jform.find('[name="'+code+'"]');
-            jinput.addClass('is-invalid');
-            jinput.next('.invalid-feedback').text(message);
-            jinput.focus();
+            jform.find('[name="'+code+'"]').alert(message).focus();
         }
 
 		/*
@@ -108,10 +103,12 @@ jform.on('submit', function() {
 	});
 	return false;
 });
-// 输入框状态重置
+// 输入框状态重置（输入时清除错误提示）
 $('input').on('input', function() {
-    $(this).removeClass('is-invalid');
-    $(this).next('.invalid-feedback').text('');
+    var el = this;
+    var tip = bootstrap.Tooltip.getInstance(el);
+    if(tip) tip.dispose();
+    $(el).removeClass('is-invalid');
 });
 
 </script>

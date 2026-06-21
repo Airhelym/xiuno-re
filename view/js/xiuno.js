@@ -1449,7 +1449,63 @@ $.fn.location = function(href) {
 	});
 };
 
-// 在控件上方提示错误信息，兼容 Bootstrap 5 表单验证
+// 在控件上方提示错误信息 (使用 Bootstrap 5 Tooltip，兼容原版 Xiuno BS4 的 tooltip 方式)
+$.fn.tips = function(message) {
+	var jthis = $(this);
+	var el = jthis[0];
+	// 添加红色边框样式
+	jthis.addClass('is-invalid');
+	// 关闭已有的 tooltip
+	var existing = bootstrap.Tooltip.getInstance(el);
+	if(existing) existing.dispose();
+	// 创建并显示新的 tooltip
+	var tooltip = new bootstrap.Tooltip(el, {
+		title: message,
+		placement: 'top',
+		trigger: 'manual',
+		template: '<div class="tooltip tooltip-error" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+	});
+	tooltip.show();
+	// 3秒后自动隐藏
+	setTimeout(function() {
+		var tip = bootstrap.Tooltip.getInstance(el);
+		if(tip) tip.hide();
+	}, 3000);
+	return this;
+};
+
+// 兼容垫片：旧版插件使用 .alert('消息') 调用 tooltip 提示
+// BS5 的 defineJQueryPlugin 在 DOMContentLoaded 中延迟注册，会覆盖 $.fn.alert
+// 我们在 DOM 就绪后再次覆盖，并包装以同时支持 BS5 alert 和 Xiuno tooltip
+$(function() {
+	var bs5Alert = $.fn.alert;
+
+	// 如果 BS5 没有注册 alert（$.fn.alert 为 undefined 或不是 BS5 的）
+	if (!bs5Alert || !bs5Alert.Constructor) {
+		$.fn.alert = function(message) {
+			return this.tips(message);
+		};
+		return;
+	}
+
+	// 包装 BS5 的 alert：BS5 方法名/初始化走原生，字符串消息走 tooltip
+	$.fn.alert = function(message) {
+		if (typeof message === 'undefined' ||
+			(typeof message === 'object' && message !== null) ||
+			(typeof message === 'string' && (message === 'close' || message === 'dispose'))) {
+			return bs5Alert.apply(this, arguments);
+		}
+		return this.tips(message);
+	};
+
+	// 保留 BS5 的元数据，防止其他代码依赖
+	$.fn.alert.Constructor = bs5Alert.Constructor;
+	if (bs5Alert.noConflict) {
+		$.fn.alert.noConflict = bs5Alert.noConflict;
+	}
+});
+
+// 在控件上方提示错误信息，兼容 Bootstrap 5 表单验证（红色边框 + 下方文字）
 $.fn.fieldAlert = function(message) {
 	var jthis = $(this);
 	jthis.addClass('is-invalid');
@@ -1575,7 +1631,15 @@ $.fn.attr_name_index = function(rowid) {
 $.fn.reset = function() {
 	var jform = $(this);
 	jform.find('input[type="submit"]').button('reset');
-	jform.find('input').tooltip('dispose');
+	// 清除所有 tooltip 和 is-invalid 状态
+	jform.find('input, textarea').each(function() {
+		var el = this;
+		// 清除 Bootstrap 5 Tooltip
+		var tip = bootstrap.Tooltip.getInstance(el);
+		if(tip) tip.dispose();
+		// 清除 is-invalid 样式
+		$(el).removeClass('is-invalid');
+	});
 };
 
 // 用来代替 <base href="../" /> 的功能
