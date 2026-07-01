@@ -120,6 +120,7 @@ return array(
 	'username_not_exists' => '用户名不存在',
 	'user_not_exists' => '用户不存在',
 	'password_incorrect' => '密码错误',
+	'email_or_password_incorrect' => '邮箱或密码错误',
 	'edit_user'=>'编辑用户',
 	'create_user'=>'创建用户',
 	'user_group'=>'用户组',

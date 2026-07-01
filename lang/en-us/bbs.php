@@ -120,6 +120,7 @@ return array(
 	'username_not_exists' => 'User does not exists',
 	'user_not_exists' => 'User does not exists',
 	'password_incorrect' => 'Password Incorrect',
+	'email_or_password_incorrect' => 'Email or password incorrect',
 	'edit_user'=>'Edit User',
 	'create_user'=>'Create User',
 	'user_group'=>'User Group',

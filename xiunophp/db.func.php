@@ -246,11 +246,17 @@ array('id'=>array('>' => 100, '<' => 200))
 array('username'=>array('LIKE' => 'jack'))
 */
 
+function db_safe_field($field) {
+	$field = preg_replace('/[^a-zA-Z0-9_\.]/', '', $field);
+	return $field;
+}
+
 function db_cond_to_sqladd($cond) {
 	$s = '';
 	if(!empty($cond)) {
 		$s = ' WHERE ';
 		foreach($cond as $k=>$v) {
+			$k = db_safe_field($k);
 			if(!is_array($v)) {
 				$v = (is_int($v) || is_float($v)) ? $v : "'".addslashes($v)."'";
 				$s .= "`$k`=$v AND ";
@@ -291,6 +297,7 @@ function db_orderby_to_sqladd($orderby) {
 		$s .= ' ORDER BY ';
 		$comma = '';
 		foreach($orderby as $k=>$v) {
+			$k = db_safe_field($k);
 			$s .= $comma."`$k` ".($v == 1 ? ' ASC ' : ' DESC ');
 			$comma = ',';
 		}
@@ -314,9 +321,11 @@ function db_array_to_update_sqladd($arr) {
 		$op = substr($k, -1);
 		if($op == '+' || $op == '-') {
 			$k = substr($k, 0, -1);
+			$k = db_safe_field($k);
 			$v = (is_int($v) || is_float($v)) ? $v : "'$v'";
 			$s .= "`$k`=$k$op$v,";
 		} else {
+			$k = db_safe_field($k);
 			$v = (is_int($v) || is_float($v)) ? $v : "'$v'";
 			$s .= "`$k`=$v,";
 		}
@@ -336,7 +345,7 @@ function db_array_to_insert_sqladd($arr) {
 	$keys = array();
 	$values = array();
 	foreach($arr as $k=>$v) {
-		$k = addslashes($k);
+		$k = db_safe_field($k);
 		$v = addslashes($v);
 		$keys[] = '`'.$k.'`';
 		$v = (is_int($v) || is_float($v)) ? $v : "'$v'";

@@ -43,15 +43,20 @@
 	<!--{hook admin_footer_js_before.htm}-->
 	
 	<script src="../lang/<?php echo $conf['lang'];?>/bbs.js<?php echo $static_version;?>"></script>
-	<script src="../view/js/jquery-3.1.0.js<?php echo $static_version;?>"></script>
 	
+	<!-- jQuery 3.7.x (Bootstrap 5 兼容性最佳) -->
+	<script src="../view/js/jquery-3.7.1.min.js<?php echo $static_version;?>"></script>
+	
+	<!-- Bootstrap 5 JS Bundle (包含 Popper) -->
+	<script src="../view/js/bootstrap-5.bundle.min.js"></script>
+	
+	<!-- Xiuno 核心 JS -->
 	<script src="../view/js/xiuno.js<?php echo $static_version;?>"></script>
-	<script src="../view/js/bootstrap-plugin.js<?php echo $static_version;?>"></script>
 	<script src="../view/js/async.js<?php echo $static_version;?>"></script>
 	<script src="../view/js/form.js<?php echo $static_version;?>"></script>
 	
-  <!-- Bootstrap 5 JS -->
-	<script src="../view/js/bootstrap-5.bundle.min.js"></script>
+	<!-- Bootstrap 插件封装 (使用 Bootstrap 5 API) -->
+	<script src="../view/js/bootstrap-plugin.js<?php echo $static_version;?>"></script>
 	
 	<script>
 	var debug = DEBUG = <?php echo DEBUG; ?>;

@@ -146,6 +146,8 @@ if(empty($action) || $action == 'create') {
 			$attach['orgfilename'] = urlencode($attach['orgfilename']);
 			$attach['orgfilename'] = str_replace("+", "%20", $attach['orgfilename']);
 		}
+		
+		$attach['orgfilename'] = preg_replace('/[\x00-\x1F\x7F]/', '', $attach['orgfilename']);
 		$timefmt = date('D, d M Y H:i:s', $time).' GMT';
 		header('Date: '.$timefmt);
 		header('Last-Modified: '.$timefmt);

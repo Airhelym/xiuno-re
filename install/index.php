@@ -24,15 +24,16 @@ include APP_PATH.'model/forum.func.php';
 include INSTALL_PATH.'install.func.php';
 
 // 安装锁检测: 若存在 install.lock 文件，则阻止安装程序运行
-if(is_file(INSTALL_PATH.'install.lock')) {
+// 双重检测：install 目录下 + conf 目录下，任一存在即拦截
+if(is_file(INSTALL_PATH.'install.lock') OR is_file(APP_PATH.'conf/install.lock')) {
 	include INSTALL_PATH.'view/htm/lock.htm';
 	exit;
 }
 
 $action = param('action');
 
-// 安装初始化检测,放这里
-is_file(APP_PATH.'conf/conf.php') AND DEBUG != 2 AND message(0, jump(lang('installed_tips'), '../'));
+// 安装初始化检测, 放这里 — conf.php 存在则视为已安装，不受 DEBUG 影响
+is_file(APP_PATH.'conf/conf.php') AND message(0, jump(lang('installed_tips'), '../'));
 
 // 从 cookie 中获取数据，默认为中文
 $_lang = param('lang', 'zh-cn');

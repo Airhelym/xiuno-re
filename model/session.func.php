@@ -192,9 +192,14 @@ function sess_start() {
 	ini_set('session.use_only_cookies', 'On');
 	ini_set('session.cookie_domain', '');
 	ini_set('session.cookie_path', '');	// 为空则表示当前目录和子目录
-	ini_set('session.cookie_secure', 'Off'); // 打开后，只有通过 https 才有效。
+	ini_set('session.cookie_secure', (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'On' : 'Off'); // HTTPS 环境自动开启
 	ini_set('session.cookie_lifetime', 86400);
 	ini_set('session.cookie_httponly', 'On'); // 打开后 js 获取不到 HTTP 设置的 cookie, 有效防止 XSS，这个对于安全很重要，除非有 BUG，否则不要关闭。
+	
+	// PHP 7.3+ 支持 SameSite，增强 CSRF 防护
+	if(version_compare(PHP_VERSION, '7.3.0', '>=')) {
+		ini_set('session.cookie_samesite', 'Lax');
+	}
 	
 	ini_set('session.gc_maxlifetime', $conf['online_hold_time']);	// 活动时间 $conf['online_hold_time']
 	ini_set('session.gc_probability', 1); 	// 垃圾回收概率 = gc_probability/gc_divisor

@@ -1369,6 +1369,38 @@ function http_location($url) {
 	exit;
 }
 
+// 安全跳转，防止开放重定向攻击，仅允许站内跳转
+function http_location_safe($url, $default = './') {
+	// 解析当前站点的 host
+	$current_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+	
+	// 如果是相对路径（不以 http/https 开头），直接跳转
+	if(!preg_match('#^https?://#i', $url)) {
+		// 进一步检查相对路径的安全性，防止使用 //example.com 的形式
+		if(strpos($url, '//') === 0) {
+			$url = $default;
+		}
+		header('Location:'.$url);
+		exit;
+	}
+	
+	// 解析目标 URL
+	$url_parts = parse_url($url);
+	if(empty($url_parts['host'])) {
+		header('Location:'.$default);
+		exit;
+	}
+	
+	// 检查 host 是否一致
+	if($url_parts['host'] != $current_host) {
+		header('Location:'.$default);
+		exit;
+	}
+	
+	header('Location:'.$url);
+	exit;
+}
+
 // 获取 referer
 function http_referer() {
 	$len = strlen(http_url_path());

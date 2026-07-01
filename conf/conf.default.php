@@ -10,7 +10,7 @@
 */
 return array (
 	'db' => array (
-		'type' => 'mysql',	
+		'type' => 'pdo_mysql',	
 		'mysql' => array (
 			'master' => array (
 				'host' => 'localhost',
@@ -100,6 +100,8 @@ return array (
 	'user_create_email_on' => 0,
 	'user_create_on' => 1,
 	'user_resetpw_on' => 0,
+	'login_error_unified' => 0,	// 登录错误统一提示（防止用户名/邮箱枚举），0=关闭（区分错误类型），1=开启（统一提示"邮箱或密码错误"）
+	'admin_html_filter_on' => 0,	// 管理员发帖 HTML 过滤开关，0=关闭（管理员不过滤，保持原行为），1=开启（管理员发帖也经过 xn_html_safe 过滤）
 
 	 'nav_2_on' => 1,				// 是否开启二级导航
 	 'nav_2_forum_list_pc_on' => 0,			// 是否开启 PC 二级导航版块列表
@@ -123,7 +125,7 @@ return array (
 	'disabled_plugin' => 0, 
 	  
 	'version' => '4.0.4',
-	'xnre-version' => '2.0.0-b11',
+	'xnre-version' => '2.0.0-b12',
 
 	'static_version' => '?1.0',
 	'installed' => 0,

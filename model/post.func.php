@@ -358,7 +358,9 @@ function post_message_fmt(&$arr, $gid) {
 	$arr['message_fmt'] = htmlspecialchars($arr['message']);
 	
 	// 入库的时候进行转换，编辑的时候，自行调取 message, 或者 message_fmt
-	$arr['doctype'] == 0 && $arr['message_fmt'] = ($gid == 1 ? $arr['message'] : xn_html_safe($arr['message']));
+	global $conf;
+	$admin_bypass = ($gid == 1 && empty($conf['admin_html_filter_on']));
+	$arr['doctype'] == 0 && $arr['message_fmt'] = ($admin_bypass ? $arr['message'] : xn_html_safe($arr['message']));
 	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
 	
 	// hook post_message_fmt_end.php

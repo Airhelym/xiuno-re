@@ -74,14 +74,17 @@ if(empty($action)) {
 		empty($email) AND message('email', lang('email_is_empty'));
 		if(is_email($email, $err)) {
 			$_user = user_read_by_email($email);
-			empty($_user) AND message('email', lang('email_not_exists'));
+			empty($_user) AND empty($conf['login_error_unified']) AND message('email', lang('email_not_exists'));
 		} else {
 			$_user = user_read_by_username($email);
-			empty($_user) AND message('email', lang('username_not_exists'));
+			empty($_user) AND empty($conf['login_error_unified']) AND message('email', lang('username_not_exists'));
 		}
 
 		!is_password($password, $err) AND message('password', $err);
-		md5($password.$_user['salt']) != $_user['password'] AND message('password', lang('password_incorrect'));
+		if(empty($_user) || md5($password.$_user['salt']) != $_user['password']) {
+			!empty($conf['login_error_unified']) AND message(-1, lang('email_or_password_incorrect'));
+			md5($password.$_user['salt']) != $_user['password'] AND message('password', lang('password_incorrect'));
+		}
 
 		// 更新登录时间和次数
 		// update login times
