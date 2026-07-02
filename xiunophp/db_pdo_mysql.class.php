@@ -132,7 +132,7 @@ class db_pdo_mysql {
 		$link = $this->link = $this->wlink;
 		$n = 0;
 		try {
-			if(strtoupper(substr($sql, 0, 12) == 'CREATE TABLE')) {
+			if(strtoupper(substr($sql, 0, 12)) == 'CREATE TABLE') {
 				$fulltext = strpos($sql, 'FULLTEXT(') !== FALSE;
 				$highversion = version_compare($this->version(), '5.6') >= 0;
 				if(!$fulltext || ($fulltext && $highversion)) {

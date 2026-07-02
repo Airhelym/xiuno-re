@@ -34,12 +34,10 @@ function install_sql_file($sqlfile) {
 	global $errno, $errstr;
 	$s = file_get_contents($sqlfile);
 	$s = str_replace(";\r\n", ";\n", $s);
-	//$s = preg_replace('/#(.*?)\r\n/i', "", $s);
 	$arr = explode(";\n", $s);
 	foreach ($arr as $sql) {
 		$sql = trim($sql);
 		if(empty($sql)) continue;
-		$arr = explode(";\n", $s);
 		db_exec($sql) === FALSE AND message(-1, "sql: $sql, errno: $errno, errstr: $errstr");
 	}
 }

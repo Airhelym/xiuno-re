@@ -137,12 +137,12 @@ if(empty($action)) {
 		// 此处可能报错
 		$r = db_connect($db);
 		if($r === FALSE) {
-			if($errno == 1049 || $errno == 1045) {
+			if($errno == 1049) {
 				if($type == 'mysql') {
-					mysql_query("CREATE DATABASE $name");
+					mysql_query("CREATE DATABASE `$name`");
 					$r = db_connect($db);
 				} elseif($type == 'pdo_mysql') {
-					if(strpos(':', $host) !== FALSE) {
+					if(strpos($host, ':') !== FALSE) {
 						$arr = explode(':', $host);
 						$host = $arr[0];
 						$port = $arr[1];
